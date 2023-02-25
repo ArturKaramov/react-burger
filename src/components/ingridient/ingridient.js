@@ -14,7 +14,7 @@ class Ingridient extends React.Component {
         <img className='ml-4 mr-4' src={this.props.data.image} alt={this.props.data.name}/>
         {this.getCount() ? <Counter count={this.getCount()} size="default" extraClass="m-1" /> : <></>}
         <div className={`${ingridientStyles.price} mt-2 mb-2`}>
-          <p className="text text_type_digits-default">{this.props.data.price}</p>
+          <p className="pr-2 text text_type_digits-default">{this.props.data.price}</p>
           <CurrencyIcon type="primary" />
         </div>
         <p className="text text_type_main-default">{this.props.data.name}</p>

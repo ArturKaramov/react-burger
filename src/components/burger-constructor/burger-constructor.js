@@ -1,12 +1,12 @@
 import React from "react";
 import { ConstructorElement, Button, DragIcon, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerConstructorStyles from './burger-constructor.module.css';
+import burgerConstructorStyles from './burger-constructor.module.css';
 
 class BurgerConstructor extends React.Component {
   render() {
     return (
-        <section className={`pt-25 pl-4 ${BurgerConstructorStyles.burgerConstructor}`}>
-          <div key={`${this.props.bun._id}_top`} className='pl-8 pr-4'>
+        <section className={`pt-25 pl-4 ${burgerConstructorStyles.burgerConstructor}`}>
+          <div key={0} className='pl-8 pr-4'>
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -15,9 +15,9 @@ class BurgerConstructor extends React.Component {
               thumbnail={this.props.bun.image}
             />
           </div>
-          <ul className={`mt-4 mb-4 ${BurgerConstructorStyles.burgerConstructorList}`}>
+          <ul className={`mt-4 mb-4 ${burgerConstructorStyles.burgerConstructorList}`}>
             {this.props.ingridients.map((ingr, i) => 
-              <li key={i} className={`pb-4 pr-2 ${BurgerConstructorStyles.burgerElement}`}>
+              <li key={i + 1} className={`pb-4 pr-2 ${burgerConstructorStyles.burgerElement}`}>
                 <DragIcon type="primary" />
                 <ConstructorElement
                   text={ingr.name}
@@ -26,7 +26,7 @@ class BurgerConstructor extends React.Component {
               </li>
             )}
           </ul>
-          <div key={`${this.props.bun._id}_bottom`} className='pl-8 pr-4'>
+          <div key={this.props.ingridients.length + 1} className='pl-8 pr-4'>
             <ConstructorElement
               type="bottom"
               isLocked={true}
@@ -35,9 +35,9 @@ class BurgerConstructor extends React.Component {
               thumbnail={this.props.bun.image}
             />
           </div>
-          <div className={`pt-10 pr-4 ${BurgerConstructorStyles.totalPrice}`}>
-            <p className="text text_type_digits-medium">{this.props.ingridients.map(ingr => ingr.price).reduce((prevIngr, ingr) => ingr + prevIngr)}</p>
-            <span className={`pr-10 ${BurgerConstructorStyles.currency}`}><CurrencyIcon type="primary" /></span>
+          <div className={`pt-10 pr-4 ${burgerConstructorStyles.totalPrice}`}>
+            <p className="pr-2 text text_type_digits-medium">{this.props.ingridients.map(ingr => ingr.price).reduce((prevIngr, ingr) => ingr + prevIngr)}</p>
+            <span className={`${burgerConstructorStyles.currency} pr-10`}><CurrencyIcon type="primary" /></span>
             <Button htmlType="button" type="primary" size="large">Оформить заказ</Button>
           </div>
         </section>
