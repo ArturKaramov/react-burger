@@ -36,7 +36,7 @@ class BurgerConstructor extends React.Component {
             />
           </div>
           <div className={`pt-10 pr-4 ${burgerConstructorStyles.totalPrice}`}>
-            <p className="pr-2 text text_type_digits-medium">{this.props.ingridients.map(ingr => ingr.price).reduce((prevIngr, ingr) => ingr + prevIngr)}</p>
+            <p className="pr-2 text text_type_digits-medium">{this.props.bun.price + this.props.ingridients.map(ingr => ingr.price).reduce((prevIngr, ingr) => ingr + prevIngr)}</p>
             <span className={`${burgerConstructorStyles.currency} pr-10`}><CurrencyIcon type="primary" /></span>
             <Button htmlType="button" type="primary" size="large">Оформить заказ</Button>
           </div>
