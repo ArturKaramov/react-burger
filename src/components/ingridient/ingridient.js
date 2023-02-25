@@ -12,7 +12,7 @@ class Ingridient extends React.Component {
     return (
       <li className={`mb-8 ml-4 mr-2 ${ingridientStyles.ingridient}`}>
         <img className='ml-4 mr-4' src={this.props.data.image} alt={this.props.data.name}/>
-        {this.getCount() ? <Counter count={this.getCount()} size="default" extraClass="m-1" /> : <></>}
+        {Boolean(this.getCount()) && (<Counter count={this.getCount()} size="default" extraClass="m-1" />)}
         <div className={`${ingridientStyles.price} mt-2 mb-2`}>
           <p className="pr-2 text text_type_digits-default">{this.props.data.price}</p>
           <CurrencyIcon type="primary" />
