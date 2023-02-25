@@ -1,0 +1,49 @@
+.burgerConstructor {
+  display: grid;
+  max-width: 600px;
+  grid-template-rows: 80px 1fr 80px max-content;
+  max-height: calc(100vh - 88px - 100px);
+  justify-content: start;
+  align-content: start;
+}
+
+.burgerConstructorList {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  list-style-type: none;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.burgerConstructorList::-webkit-scrollbar {
+  width: 8px;
+  background-color: #2f2f37;
+}
+
+.burgerConstructorList::-webkit-scrollbar-thumb {
+  width: 8px;
+  background-color: #8585ad;
+}
+
+.burgerElement {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.burgerElement:last-child {
+  padding-bottom: 0;
+}
+
+.totalPrice {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.currency {
+  width: 36px;
+  height: 36px;
+}
