@@ -1,20 +1,22 @@
+export const BUN = 'bun';
+export const MAIN = 'main';
+export const SAUCE = 'sauce';
+
+
 export const ingrTypes = [
   {
     name: 'Булки',
-    type: 'bun',
-    value: 'one'
+    type: BUN
   },
   {
     name: 'Соусы',
-    type: 'sauce',
-    value: 'two'
+    type: SAUCE
   },
   {
     name: 'Начинки',
-    type: 'main',
-    value: 'three'
+    type: MAIN
   }
-]
+];
 
 export const currentBurger = [
   {

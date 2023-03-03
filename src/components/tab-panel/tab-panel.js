@@ -1,15 +1,19 @@
 import React from "react";
+import PropTypes from 'prop-types';
+import { ingrTypePropTypes } from "../../utils/prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import tabPanelStyle from './tab-panel.module.css'
+import tabPanelStyle from './tab-panel.module.css';
 
-function TabPanel(props) {
-  const [current, setCurrent] = React.useState('one');
+export default function TabPanel(props) {
+  const [current, setCurrent] = React.useState(props.tabs[0].type);
   return(
     <nav className={tabPanelStyle.tabPanel}>
       {props.tabs.map((tab, i) => 
-        <Tab key={i} value={tab.value} active={current === tab.value} onClick={setCurrent}>{tab.name}</Tab>)}
+        <Tab key={i} value={tab.type} active={current === tab.type} onClick={setCurrent}>{tab.name}</Tab>)}
     </nav>
   )
-}
+};
 
-export default TabPanel;
+TabPanel.propTypes = {
+  tabs: PropTypes.arrayOf(ingrTypePropTypes).isRequired
+};
