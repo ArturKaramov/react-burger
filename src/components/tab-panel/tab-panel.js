@@ -15,5 +15,5 @@ export default function TabPanel(props) {
 };
 
 TabPanel.propTypes = {
-  tabs: PropTypes.arrayOf(ingrTypePropTypes).isRequired
+  tabs: PropTypes.arrayOf(ingrTypePropTypes.isRequired).isRequired
 };
