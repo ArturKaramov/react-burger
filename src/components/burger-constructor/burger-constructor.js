@@ -51,7 +51,7 @@ function BurgerConstructor(props) {
 };
 
 BurgerConstructor.propTypes = {
-  ingridients: PropTypes.arrayOf(ingrPropTypes).isRequired
+  ingridients: PropTypes.arrayOf(ingrPropTypes.isRequired).isRequired
 };
 
 export default BurgerConstructor;
