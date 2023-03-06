@@ -1,0 +1,14 @@
+.ingridient {
+  display: grid;
+  justify-items: center;
+  position: relative;
+  grid-template-columns: 272px;
+  text-align: center;
+  grid-template-rows: max-content max-content 48px;
+  box-sizing: border-box;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}
