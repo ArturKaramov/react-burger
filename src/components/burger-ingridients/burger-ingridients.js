@@ -10,7 +10,7 @@ function BurgerIngridients(props) {
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
       <TabPanel tabs={props.types}/>
       <div className={`${burgerIngridientsStyles.burgerIngridientsTypes} pt-8`}>
-        {props.types.map(element => <IngridientPanel key={element.type} type={element} data={props.ingridients.filter(ingr => ingr.type === element.type)}/>)}
+        {props.types.map(element => <IngridientPanel openModal={props.openModal} key={element.type} type={element} data={props.ingridients.filter(ingr => ingr.type === element.type)}/>)}
       </div>
     </section>
   )

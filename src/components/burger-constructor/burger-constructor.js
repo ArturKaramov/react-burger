@@ -9,7 +9,7 @@ function BurgerConstructor(props) {
   const totalPrice = React.useMemo(() => props.ingridients.map(ingr => ingr.price).reduce((prevIngr, ingr) => ingr + prevIngr), [props.ingridients])
   const bun = React.useMemo(() => props.ingridients.find(ingr => ingr.type === BUN), [props.ingridients]);
   const products = React.useMemo(() => props.ingridients.filter(ingr => ingr.type !== BUN), [props.ingridients]);
-
+  
   return (
     <section className={`pt-25 pl-4 ${burgerConstructorStyles.burgerConstructor}`}>
       <div key={0} className='pl-8 pr-4'>
@@ -44,7 +44,7 @@ function BurgerConstructor(props) {
       <div className={`pt-10 pr-4 ${burgerConstructorStyles.totalPrice}`}>
         <p className="pr-2 text text_type_digits-medium">{totalPrice}</p>
         <span className={`${burgerConstructorStyles.currency} pr-10`}><CurrencyIcon type="primary" /></span>
-        <Button htmlType="button" type="primary" size="large">Оформить заказ</Button>
+        <Button onClick={props.openModal} htmlType="button" type="primary" size="large">Оформить заказ</Button>
       </div>
     </section>
   )
