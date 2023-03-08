@@ -1,0 +1,22 @@
+.title {
+  min-height: 64px;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+}
+
+.values {
+  display: flex;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.value {
+  display: flex;
+  flex-direction: column;
+  min-width: 112px;
+}
+
+.value:last-child {
+  margin-right: 0;
+}
