@@ -6,13 +6,26 @@ class Api {
   }
 
   _isResponseOk(response) {
-    return response.ok ? response.json() : Promise.reject(`Ошибка: ${response.status}`)
+    return response.ok
+      ? response.json()
+      : Promise.reject(`Ошибка: ${response.status}`);
   }
 
   getData() {
-    return fetch(this._url)
-      .then(res => this._isResponseOk(res))
+    return fetch(`${this._url}/ingredients`).then((res) =>
+      this._isResponseOk(res)
+    );
   }
-};
 
-export const api = new Api(url)
+  createOrder(arr) {
+    return fetch(`${this._url}/orders`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ingredients: arr,
+      }),
+    }).then((res) => this._isResponseOk(res));
+  }
+}
+
+export const api = new Api(url);
