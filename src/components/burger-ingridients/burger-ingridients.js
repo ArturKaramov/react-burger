@@ -1,28 +1,45 @@
 import React from "react";
-import burgerIngridientsStyles from './burger-ingridients.module.css'
-import TabPanel from '../tab-panel/tab-panel';
-import IngridientPanel from '../ingridient-panel/ingridient-panel';
-import PropTypes from 'prop-types';
-import { ingrTypePropTypes, ingrPropTypes } from "../../utils/prop-types";
-import Modal from '../modal/modal';
-import OrderDetails from "../order-details/order-details";
+import burgerIngridientsStyles from "./burger-ingridients.module.css";
+import TabPanel from "../tab-panel/tab-panel";
+import IngridientPanel from "../ingridient-panel/ingridient-panel";
+import { BurgerContext } from "../../services/burgerContext";
+import { BUN, SAUCE, MAIN } from "../../utils/data";
 
-function BurgerIngridients(props) {
+function BurgerIngridients() {
+  const ingridientList = React.useContext(BurgerContext);
+
+  const ingrTypes = [
+    {
+      name: "Булки",
+      type: BUN,
+    },
+    {
+      name: "Соусы",
+      type: SAUCE,
+    },
+    {
+      name: "Начинки",
+      type: MAIN,
+    },
+  ];
 
   return (
     <section className={`mr-10 ${burgerIngridientsStyles.burgerIngridients}`}>
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
-      <TabPanel tabs={props.types}/>
+      <TabPanel tabs={ingrTypes} />
       <div className={`${burgerIngridientsStyles.burgerIngridientsTypes} pt-8`}>
-        {props.types.map(element => <IngridientPanel  key={element.type} type={element} data={props.ingridients.filter(ingr => ingr.type === element.type)}/>)}
+        {ingrTypes.map((element) => (
+          <IngridientPanel
+            key={element.type}
+            type={element}
+            data={ingridientList.data.filter(
+              (ingr) => ingr.type === element.type
+            )}
+          />
+        ))}
       </div>
     </section>
-  )
-};
-
-BurgerIngridients.propTypes = {
-  types: PropTypes.arrayOf(ingrTypePropTypes).isRequired,
-  ingridients: PropTypes.arrayOf(ingrPropTypes).isRequired
-};
+  );
+}
 
 export default BurgerIngridients;
