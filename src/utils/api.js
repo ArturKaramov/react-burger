@@ -11,20 +11,24 @@ class Api {
       : Promise.reject(`Ошибка: ${response.status}`);
   }
 
+  _request(url, options = "") {
+    return options
+      ? fetch(url, options).then((res) => this._isResponseOk(res))
+      : fetch(url).then((res) => this._isResponseOk(res));
+  }
+
   getData() {
-    return fetch(`${this._url}/ingredients`).then((res) =>
-      this._isResponseOk(res)
-    );
+    return this._request(`${this._url}/ingredients`);
   }
 
   createOrder(arr) {
-    return fetch(`${this._url}/orders`, {
+    return this._request(`${this._url}/orders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ingredients: arr,
       }),
-    }).then((res) => this._isResponseOk(res));
+    });
   }
 }
 

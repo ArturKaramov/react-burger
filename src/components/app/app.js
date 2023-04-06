@@ -4,51 +4,41 @@ import BurgerIngridients from "../burger-ingridients/burger-ingridients.js";
 import BurgerConstructor from "../burger-constructor/burger-constructor.js";
 import appStyles from "./app.module.css";
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
-import { api } from "../../utils/api.js";
-import { BurgerContext } from "../../services/burgerContext.js";
+import { useDispatch, useSelector } from "react-redux/es/exports.js";
+import { getIngredients } from "../../services/actions/index.js";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-  const [ingridientList, setIngridientList] = React.useState({
-    success: false,
-    data: [],
-    isLoading: false,
-  });
+  const dispatch = useDispatch();
+  React.useEffect(() => dispatch(getIngredients()), []);
 
-  const getData = () => {
-    setIngridientList({ ...ingridientList, isLoading: true });
-    api
-      .getData()
-      .then((ans) =>
-        setIngridientList({ success: true, data: ans.data, isLoading: false })
-      )
-      .catch((err) => {
-        console.error(err);
-        setIngridientList({ ...ingridientList, isLoading: false });
-      });
-  };
-
-  React.useEffect(() => getData(), []);
+  const { ingredientsRequest, ingredientsFailed } = useSelector(
+    (state) => state.burger
+  );
 
   return (
     <>
-      {ingridientList.isLoading ? (
+      {ingredientsRequest ? (
         <div className={appStyles.loading}>
           <Logo />
         </div>
-      ) : ingridientList.success ? (
-        <BurgerContext.Provider value={ingridientList}>
-          <AppHeader />
-          <main className={appStyles.content}>
-            <BurgerIngridients />
-            <BurgerConstructor />
-          </main>
-        </BurgerContext.Provider>
-      ) : (
+      ) : ingredientsFailed ? (
         <div className={appStyles.error}>
           <p className="text text_type_main-large">
             Кажется, данные не найдены :&lang;
           </p>
         </div>
+      ) : (
+        <>
+          <AppHeader />
+          <main className={appStyles.content}>
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngridients />
+              <BurgerConstructor />
+            </DndProvider>
+          </main>
+        </>
       )}
     </>
   );

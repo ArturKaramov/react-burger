@@ -5,7 +5,24 @@
   max-height: calc(100vh - 88px - 100px);
   justify-content: start;
   align-content: start;
+  grid-template-areas: 'empty'
+                      'empty'
+                      'empty'
+                      'button';
 }
+
+.empty {
+  outline: 2px dotted #8585ad;
+  width: 584px;
+  box-sizing: border-box;
+  height: 100%;
+  grid-area: empty;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .burgerConstructorList {
   margin-left: 0;
@@ -26,21 +43,12 @@
   background-color: #8585ad;
 }
 
-.burgerElement {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
-
-.burgerElement:last-child {
-  padding-bottom: 0;
-}
-
 .totalPrice {
   display: flex;
+  align-self: end;
   justify-content: flex-end;
   align-items: center;
+  grid-area: button;
 }
 
 .currency svg {
