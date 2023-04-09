@@ -2,7 +2,6 @@ import React from "react";
 import {
   ConstructorElement,
   Button,
-  DragIcon,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructorStyles from "./burger-constructor.module.css";
@@ -79,7 +78,7 @@ function BurgerConstructor() {
         >
           {isHover && !isBun ? (
             <span className="text text_type_main-medium">
-              Сперва выберете булку
+              Сперва, выберите булку
             </span>
           ) : (
             <span className="text text_type_main-medium">
@@ -102,9 +101,7 @@ function BurgerConstructor() {
             className={`mt-4 mb-4 ${burgerConstructorStyles.burgerConstructorList}`}
           >
             {products.map((ingr, i) => (
-              <li key={i + 1} className="pb-4 pr-2">
-                <BurgerElement data={ingr} index={i} />
-              </li>
+              <BurgerElement data={ingr} index={i} key={i + 1} />
             ))}
           </ul>
           <div key={products.length + 2} className="pl-8 pr-4">
