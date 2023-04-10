@@ -4,8 +4,12 @@ import {
   GET_ITEMS_REQUEST,
   GET_ITEMS_SUCCESS,
   GET_ITEMS_FAILED,
+  SET_ORDER_REQUEST,
+  SET_ORDER_FAILED,
+  SET_ORDER_SUCCESS,
+  CLEAR_ORDER,
   SHOW_DETAILS,
-  SET_ORDER,
+  CLEAR_DETAILS,
   ADD_INGR,
   DELETE_INGR,
   MOVE_INGRS,
@@ -14,6 +18,8 @@ import {
 const initialState = {
   ingredientsRequest: false,
   ingredientsFailed: false,
+  orderRequest: false,
+  orderFailed: false,
   items: [],
   constructor: [],
   details: {},
@@ -43,15 +49,42 @@ export const burgerReducer = (state = initialState, action) => {
         items: action.items,
       };
     }
+    case CLEAR_ORDER: {
+      return {
+        ...state,
+        order: initialState.order,
+      };
+    }
     case SHOW_DETAILS: {
       return {
         ...state,
         details: action.item,
       };
     }
-    case SET_ORDER: {
+    case CLEAR_DETAILS: {
       return {
         ...state,
+        details: initialState.details,
+      };
+    }
+    case SET_ORDER_REQUEST: {
+      return {
+        ...state,
+        orderRequest: true,
+      };
+    }
+    case SET_ORDER_FAILED: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFailed: true,
+      };
+    }
+    case SET_ORDER_SUCCESS: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFailed: false,
         order: action.order,
       };
     }
@@ -93,9 +126,6 @@ export const burgerReducer = (state = initialState, action) => {
   }
 };
 
-const cartReducer = {};
-
 export const rootReducer = combineReducers({
   burger: burgerReducer,
-  cart: cartReducer,
 });

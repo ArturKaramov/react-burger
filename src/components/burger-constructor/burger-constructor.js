@@ -7,17 +7,36 @@ import {
 import burgerConstructorStyles from "./burger-constructor.module.css";
 import { BUN } from "../../utils/data";
 import Modal from "../modal/modal";
+import burger from "../../images/burger.svg";
 import OrderDetails from "../order-details/order-details";
 import BurgerElement from "../burger-element/burger-element";
-import { api } from "../../utils/api";
 import { useSelector, useDispatch } from "react-redux";
-import { ADD_INGR, SET_ORDER } from "../../services/actions";
+import { ADD_INGR, setOrder, CLEAR_ORDER } from "../../services/actions";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
+import { v4 as uuidv4 } from "uuid";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
 
   const isOrderEmpty = !useSelector((state) => state.burger.constructor.length);
+
+  const { orderRequest, orderFailed } = useSelector((state) => state.burger);
+
+  const bun = useSelector((state) =>
+    !state.burger.constructor.find((item) => item.type === BUN)
+      ? {}
+      : state.burger.constructor.find((item) => item.type === BUN)
+  );
+
+  const products = useSelector((state) =>
+    !state.burger.constructor.filter((item) => item.type !== BUN)
+      ? []
+      : state.burger.constructor.filter((item) => item.type !== BUN)
+  );
+
+  const isDisabled = isOrderEmpty ? "disabled" : "";
+
+  const order = useSelector((state) => state.burger.order);
 
   const [{ isHover, isBun }, dropRef] = useDrop({
     accept: "ingredient",
@@ -36,20 +55,6 @@ function BurgerConstructor() {
 
   const outlineColor = isHover ? (isBun ? "lightgreen" : "red") : "#8585ad";
 
-  const bun = useSelector((state) =>
-    !state.burger.constructor.find((item) => item.type === BUN)
-      ? {}
-      : state.burger.constructor.find((item) => item.type === BUN)
-  );
-
-  const products = useSelector((state) =>
-    !state.burger.constructor.filter((item) => item.type !== BUN)
-      ? []
-      : state.burger.constructor.filter((item) => item.type !== BUN)
-  );
-
-  const order = useSelector((state) => state.burger.order);
-
   const totalPrice = React.useMemo(
     () =>
       isOrderEmpty
@@ -60,12 +65,6 @@ function BurgerConstructor() {
     [isOrderEmpty, products, bun]
   );
 
-  const showOrder = () => {
-    api
-      .createOrder([bun._id, ...products.map((item) => item._id), bun._id])
-      .then((res) => dispatch({ type: SET_ORDER, order: res.order.number }))
-      .catch((err) => console.error(err));
-  };
   return (
     <section
       ref={dropRef}
@@ -88,7 +87,7 @@ function BurgerConstructor() {
         </section>
       ) : (
         <>
-          <div key={0} className="pl-8 pr-4">
+          <div key={uuidv4()} className="pl-8 pr-4">
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -101,10 +100,10 @@ function BurgerConstructor() {
             className={`mt-4 mb-4 ${burgerConstructorStyles.burgerConstructorList}`}
           >
             {products.map((ingr, i) => (
-              <BurgerElement data={ingr} index={i} key={i + 1} />
+              <BurgerElement data={ingr} index={i} key={uuidv4()} />
             ))}
           </ul>
-          <div key={products.length + 2} className="pl-8 pr-4">
+          <div key={uuidv4()} className="pl-8 pr-4">
             <ConstructorElement
               type="bottom"
               isLocked={true}
@@ -121,18 +120,42 @@ function BurgerConstructor() {
           <CurrencyIcon type="primary" />
         </span>
         <Button
-          onClick={showOrder}
+          onClick={() =>
+            dispatch(
+              setOrder([bun._id, ...products.map((item) => item._id), bun._id])
+            )
+          }
           htmlType="button"
           type="primary"
           size="large"
+          disabled={isDisabled}
         >
           Оформить заказ
         </Button>
       </div>
-      {Boolean(order) && (
-        <Modal>
-          <OrderDetails />
-        </Modal>
+      {orderRequest ? (
+        <div className={burgerConstructorStyles.preloader}>
+          <img
+            src={burger}
+            alt="Burger"
+            className={burgerConstructorStyles.burger}
+          ></img>
+        </div>
+      ) : orderFailed ? (
+        <div className={burgerConstructorStyles.preloader}>
+          <span className="text text_type_main-medium">
+            Кажется, произошла ошибка. :&lang;
+          </span>
+          <span className="text text_type_main-medium">
+            Пожалуйста, повторите заказ
+          </span>
+        </div>
+      ) : (
+        Boolean(order) && (
+          <Modal closeModal={() => dispatch({ type: CLEAR_ORDER })}>
+            <OrderDetails />
+          </Modal>
+        )
       )}
     </section>
   );

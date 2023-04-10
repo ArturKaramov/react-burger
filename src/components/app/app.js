@@ -25,9 +25,9 @@ function App() {
         </div>
       ) : ingredientsFailed ? (
         <div className={appStyles.error}>
-          <p className="text text_type_main-large">
+          <span className="text text_type_main-large">
             Кажется, данные не найдены :&lang;
-          </p>
+          </span>
         </div>
       ) : (
         <>

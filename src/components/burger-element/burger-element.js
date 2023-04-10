@@ -49,7 +49,7 @@ function BurgerElement({ data, index }) {
   let paddingTop = "0px";
 
   if (isHover && draggingItem >= index) {
-    paddingTop = "80px";
+    paddingTop = "96px";
     paddingBottom = "16px";
   } else if (isHover && draggingItem < index) {
     paddingBottom = `96px`;

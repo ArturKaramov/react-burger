@@ -7,7 +7,7 @@ import IngridientDetails from "../ingridient-details/ingridient-details";
 import PropTypes from "prop-types";
 import { ingrPropTypes } from "../../utils/prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { SHOW_DETAILS } from "../../services/actions";
+import { SHOW_DETAILS, CLEAR_DETAILS } from "../../services/actions";
 
 const IngridientPanel = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
@@ -31,8 +31,8 @@ const IngridientPanel = React.forwardRef((props, ref) => {
           </li>
         ))}
       </ul>
-      {details.name && (
-        <Modal>
+      {!!details._id && (
+        <Modal closeModal={() => dispatch({ type: CLEAR_DETAILS })}>
           <IngridientDetails />
         </Modal>
       )}

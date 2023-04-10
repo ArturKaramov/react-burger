@@ -6,6 +6,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useRef } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd/dist/hooks";
+import { v4 as uuidv4 } from "uuid";
 
 function BurgerIngridients() {
   const ingridientList = useSelector((state) => state.burger.items);
@@ -47,9 +48,9 @@ function BurgerIngridients() {
     <section className={`mr-10 ${burgerIngridientsStyles.burgerIngridients}`}>
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
       <nav className={burgerIngridientsStyles.tabPanel}>
-        {ingrTypes.map((tab, i) => (
+        {ingrTypes.map((tab) => (
           <Tab
-            key={i}
+            key={uuidv4()}
             value={tab.type}
             active={current === tab.type}
             onClick={() => {

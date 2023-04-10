@@ -1,9 +1,8 @@
 import orderDetailsStyle from "./order-details.module.css";
-import firstLayer from "../../layer_1.svg";
-import secondLayer from "../../layer_2.svg";
-import thirdLayer from "../../layer_3.svg";
-import doneicon from "../../doneIcon.svg";
-import PropTypes from "prop-types";
+import firstLayer from "../../images/layer_1.svg";
+import secondLayer from "../../images/layer_2.svg";
+import thirdLayer from "../../images/layer_3.svg";
+import doneicon from "../../images/doneIcon.svg";
 import { useSelector } from "react-redux";
 
 function OrderDetails() {
