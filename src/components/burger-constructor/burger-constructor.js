@@ -44,6 +44,7 @@ function BurgerConstructor() {
       if (isOrderEmpty && item.data.type !== "bun") {
         return;
       } else {
+        item.data.key = uuidv4();
         dispatch({ type: ADD_INGR, ingr: item.data });
       }
     },
@@ -87,7 +88,7 @@ function BurgerConstructor() {
         </section>
       ) : (
         <>
-          <div key={uuidv4()} className="pl-8 pr-4">
+          <div className="pl-8 pr-4">
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -100,10 +101,10 @@ function BurgerConstructor() {
             className={`mt-4 mb-4 ${burgerConstructorStyles.burgerConstructorList}`}
           >
             {products.map((ingr, i) => (
-              <BurgerElement data={ingr} index={i} key={uuidv4()} />
+              <BurgerElement data={ingr} index={i} key={ingr.key} />
             ))}
           </ul>
-          <div key={uuidv4()} className="pl-8 pr-4">
+          <div className="pl-8 pr-4">
             <ConstructorElement
               type="bottom"
               isLocked={true}
