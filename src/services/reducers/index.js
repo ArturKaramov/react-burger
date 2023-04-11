@@ -53,6 +53,7 @@ export const burgerReducer = (state = initialState, action) => {
       return {
         ...state,
         order: initialState.order,
+        constructor: initialState.constructor,
       };
     }
     case SHOW_DETAILS: {
