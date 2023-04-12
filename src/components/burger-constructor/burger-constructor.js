@@ -45,7 +45,7 @@ function BurgerConstructor() {
         return;
       } else {
         item.data.key = uuidv4();
-        dispatch({ type: ADD_INGR, ingr: item.data });
+        dispatch({ type: ADD_INGR, ingr: { ...item.data } });
       }
     },
     collect: (monitor) => ({
