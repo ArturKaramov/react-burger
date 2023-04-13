@@ -1,0 +1,9 @@
+.burgerElement {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 8px;
+}
+.burgerElement:last-child {
+  padding-bottom: 0;
+}

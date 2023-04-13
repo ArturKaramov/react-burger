@@ -6,44 +6,39 @@ import Modal from "../modal/modal";
 import IngridientDetails from "../ingridient-details/ingridient-details";
 import PropTypes from "prop-types";
 import { ingrPropTypes } from "../../utils/prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { SHOW_DETAILS, CLEAR_DETAILS } from "../../services/actions";
 
-function IngridientPanel(props) {
-  const [ingridient, setIngridient] = React.useState({
-    data: {},
-    isToggle: false,
-  });
-
-  const showIngridient = (obj) => {
-    setIngridient({ data: obj, isToggle: true });
-  };
-
-  const hideIngridient = () => {
-    setIngridient({ data: {}, isToggle: false });
-  };
-
+const IngridientPanel = React.forwardRef((props, ref) => {
+  const dispatch = useDispatch();
+  const details = useSelector((state) => state.burger.details);
   return (
     <>
       <h2
         key={props.type.value}
+        ref={ref}
         className="text text_type_main-medium pb-6 pt-2"
       >
         {props.type.name}
       </h2>
       <ul className={`${ingridientPanelStyle.ingridientList} pb-10`}>
         {props.data.map((ingr) => (
-          <li key={ingr._id} onClick={() => showIngridient(ingr)}>
+          <li
+            key={ingr._id}
+            onClick={() => dispatch({ type: SHOW_DETAILS, item: ingr })}
+          >
             <Ingridient data={ingr} />
           </li>
         ))}
       </ul>
-      {ingridient.isToggle && (
-        <Modal closeModal={hideIngridient}>
-          <IngridientDetails data={ingridient.data} />
+      {!!details._id && (
+        <Modal closeModal={() => dispatch({ type: CLEAR_DETAILS })}>
+          <IngridientDetails />
         </Modal>
       )}
     </>
   );
-}
+});
 
 IngridientPanel.propTypes = {
   type: ingrTypePropTypes.isRequired,
