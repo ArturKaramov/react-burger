@@ -1,4 +1,5 @@
 import { url } from "./data";
+import { getCookie } from "./utils";
 
 class Api {
   constructor(url) {
@@ -28,6 +29,75 @@ class Api {
       body: JSON.stringify({
         ingredients: arr,
       }),
+    });
+  }
+
+  loginUser(obj) {
+    return this._request(`${this._url}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
+    });
+  }
+
+  createUser(obj) {
+    return this._request(`${this._url}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
+    });
+  }
+
+  logoutUser(obj) {
+    return this._request(`${this._url}/auth/logout`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
+    });
+  }
+
+  refreshToken(obj) {
+    return this._request(`${this._url}/auth/token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
+    });
+  }
+
+  resetPassword(obj) {
+    return this._request(`${this._url}/password-reset`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
+    });
+  }
+
+  createNewPassword(obj) {
+    return this._request(`${this._url}/password-reset/reset`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
+    });
+  }
+
+  getUserInfo() {
+    return this._request(`${this._url}/auth/user`, {
+      method: "GET",
+      headers: {
+        authorization: getCookie("token"),
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  updateUserInfo(obj) {
+    return this._request(`${this._url}/auth/user`, {
+      method: "PATCH",
+      headers: {
+        authorization: getCookie("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(obj),
     });
   }
 }

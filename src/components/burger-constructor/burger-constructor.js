@@ -7,11 +7,11 @@ import {
 import burgerConstructorStyles from "./burger-constructor.module.css";
 import { BUN } from "../../utils/data";
 import Modal from "../modal/modal";
-import burger from "../../images/burger.svg";
 import OrderDetails from "../order-details/order-details";
 import BurgerElement from "../burger-element/burger-element";
+import { Preloader } from "../preloader/preloader";
 import { useSelector, useDispatch } from "react-redux";
-import { ADD_INGR, setOrder, CLEAR_ORDER } from "../../services/actions";
+import { ADD_INGR, setOrder, CLEAR_ORDER } from "../../services/actions/burger";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { v4 as uuidv4 } from "uuid";
 
@@ -135,15 +135,9 @@ function BurgerConstructor() {
         </Button>
       </div>
       {orderRequest ? (
-        <div className={burgerConstructorStyles.preloader}>
-          <img
-            src={burger}
-            alt="Burger"
-            className={burgerConstructorStyles.burger}
-          ></img>
-        </div>
+        <Preloader />
       ) : orderFailed ? (
-        <div className={burgerConstructorStyles.preloader}>
+        <div className={burgerConstructorStyles.error}>
           <span className="text text_type_main-medium">
             Кажется, произошла ошибка. :&lang;
           </span>

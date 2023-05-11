@@ -5,3 +5,8 @@
   list-style-type: none;
   grid-template-columns: repeat(2, max-content);
 }
+
+.link {
+  color: #f2f2f3;
+  text-decoration: none;
+}
