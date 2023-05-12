@@ -41,9 +41,9 @@ export const ProfilePage = () => {
       <main className={styles.main}>
         <nav className={`${styles.menu} mr-15`}>
           <NavLink
-            to="/profile"
+            to="/react-burger/profile"
             className={
-              location === "/profile"
+              location === "/react-burger/profile"
                 ? `${styles.activeLink} ${styles.link} text text_type_main-medium `
                 : `${styles.link} text text_type_main-medium text_color_inactive`
             }
@@ -52,9 +52,9 @@ export const ProfilePage = () => {
           </NavLink>
 
           <NavLink
-            to={{ pathname: "/profile/orders" }}
+            to={{ pathname: "react-burger/profile/orders" }}
             className={
-              location === "/profile/orders"
+              location === "/react-burger/profile/orders"
                 ? `${styles.activeLink} ${styles.link} text text_type_main-medium `
                 : `${styles.link} text text_type_main-medium text_color_inactive`
             }

@@ -17,7 +17,7 @@ export const RegisterPage = () => {
       {
         question: "Уже зарегистрированы?",
         answer: "Войти",
-        link: "/login",
+        link: "/react-burger/login",
       },
     ],
   };

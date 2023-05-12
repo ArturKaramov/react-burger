@@ -4,7 +4,7 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerConstructorStyles from "./burger-constructor.module.css";
+import styles from "./burger-constructor.module.css";
 import { BUN } from "../../utils/data";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
@@ -67,15 +67,9 @@ function BurgerConstructor() {
   );
 
   return (
-    <section
-      ref={dropRef}
-      className={`pt-25 pl-4 ${burgerConstructorStyles.burgerConstructor}`}
-    >
+    <section ref={dropRef} className={`pt-25 pl-4 ${styles.burgerConstructor}`}>
       {isOrderEmpty ? (
-        <section
-          className={` ${burgerConstructorStyles.empty}`}
-          style={{ outlineColor }}
-        >
+        <section className={` ${styles.empty}`} style={{ outlineColor }}>
           {isHover && !isBun ? (
             <span className="text text_type_main-medium">
               Сперва, выберите булку
@@ -97,9 +91,7 @@ function BurgerConstructor() {
               thumbnail={bun.image}
             />
           </div>
-          <ul
-            className={`mt-4 mb-4 ${burgerConstructorStyles.burgerConstructorList}`}
-          >
+          <ul className={`mt-4 mb-4 ${styles.burgerConstructorList}`}>
             {products.map((ingr, i) => (
               <BurgerElement data={ingr} index={i} key={ingr.key} />
             ))}
@@ -115,9 +107,9 @@ function BurgerConstructor() {
           </div>
         </>
       )}
-      <div className={`pt-10 pr-4 ${burgerConstructorStyles.totalPrice}`}>
+      <div className={`pt-10 pr-4 ${styles.totalPrice}`}>
         <p className="pr-2 text text_type_digits-medium">{totalPrice}</p>
-        <span className={`${burgerConstructorStyles.currency} pr-10`}>
+        <span className={`${styles.currency} pr-10`}>
           <CurrencyIcon type="primary" />
         </span>
         <Button
@@ -137,7 +129,7 @@ function BurgerConstructor() {
       {orderRequest ? (
         <Preloader />
       ) : orderFailed ? (
-        <div className={burgerConstructorStyles.error}>
+        <div className={styles.error}>
           <span className="text text_type_main-medium">
             Кажется, произошла ошибка. :&lang;
           </span>
@@ -147,7 +139,11 @@ function BurgerConstructor() {
         </div>
       ) : (
         Boolean(order) && (
-          <Modal closeModal={() => dispatch({ type: CLEAR_ORDER })}>
+          <Modal
+            closeModal={() => {
+              dispatch({ type: CLEAR_ORDER });
+            }}
+          >
             <OrderDetails />
           </Modal>
         )

@@ -17,11 +17,16 @@ export default function AppHeader() {
         <Logo />
       </div>
       <nav className={styles.menu}>
-        <NavLink to={"/"} className={`${styles.link} pl-5 pr-5 pb-4 pt-4 mr-2`}>
-          <BurgerIcon type={location === "/" ? "primary" : "secondary"} />
+        <NavLink
+          to={"/react-burger"}
+          className={`${styles.link} pl-5 pr-5 pb-4 pt-4 mr-2`}
+        >
+          <BurgerIcon
+            type={location === "/react-burger" ? "primary" : "secondary"}
+          />
           <p
             className={
-              location === "/"
+              location === "/react-burger"
                 ? "text text_type_main-default pl-2"
                 : "text text_type_main-default text_color_inactive pl-2"
             }
@@ -30,10 +35,12 @@ export default function AppHeader() {
           </p>
         </NavLink>
         <NavLink className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}>
-          <ListIcon type={location === "/feed" ? "primary" : "secondary"} />
+          <ListIcon
+            type={location === "/react-burger/feed" ? "primary" : "secondary"}
+          />
           <p
             className={
-              location === "/feed"
+              location === "/react-burger/feed"
                 ? "text text_type_main-default pl-2"
                 : "text text_type_main-default text_color_inactive pl-2"
             }
@@ -42,15 +49,17 @@ export default function AppHeader() {
           </p>
         </NavLink>
         <NavLink
-          to={"/login"}
+          to={"/react-burger/login"}
           className={`${styles.link} ${styles.personal} pl-5 pr-5 pb-4 pt-4`}
         >
           <ProfileIcon
-            type={location === "/profile" ? "primary" : "secondary"}
+            type={
+              location === "/react-burger/profile" ? "primary" : "secondary"
+            }
           />
           <p
             className={
-              location === "/profile"
+              location === "/react-burger/profile"
                 ? "text text_type_main-default pl-2"
                 : "text text_type_main-default text_color_inactive pl-2"
             }

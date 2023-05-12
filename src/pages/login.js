@@ -19,12 +19,12 @@ export const LoginPage = () => {
       {
         question: "Вы — новый пользователь?",
         answer: "Зарегистрироваться",
-        link: "/register",
+        link: "/react-burger/register",
       },
       {
         question: "Забыли пароль?",
         answer: "Восстановить пароль",
-        link: "/forgot-password",
+        link: "/react-burger/forgot-password",
       },
     ],
   };
@@ -45,7 +45,7 @@ export const LoginPage = () => {
       ) : authFailed ? (
         <Preloader />
       ) : authSuccess ? (
-        <Navigate to={"/profile"} />
+        <Navigate to={"/react-burger/profile"} />
       ) : (
         <>
           <AppHeader />

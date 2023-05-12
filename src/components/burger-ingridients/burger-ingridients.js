@@ -1,5 +1,5 @@
 import React from "react";
-import burgerIngridientsStyles from "./burger-ingridients.module.css";
+import styles from "./burger-ingridients.module.css";
 import IngridientPanel from "../ingridient-panel/ingridient-panel";
 import { BUN, SAUCE, MAIN } from "../../utils/data";
 import { useSelector } from "react-redux/es/hooks/useSelector";
@@ -43,9 +43,9 @@ function BurgerIngridients() {
   };
 
   return (
-    <section className={`mr-10 ${burgerIngridientsStyles.burgerIngridients}`}>
+    <section className={`mr-10 ${styles.burgerIngridients}`}>
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
-      <nav className={burgerIngridientsStyles.tabPanel}>
+      <nav className={styles.tabPanel}>
         {ingrTypes.map((tab) => (
           <Tab
             key={tab.type}
@@ -66,7 +66,7 @@ function BurgerIngridients() {
       <div
         onScroll={setCurrentOnScroll}
         ref={parentRef}
-        className={`${burgerIngridientsStyles.burgerIngridientsTypes} pt-8`}
+        className={`${styles.burgerIngridientsTypes} pt-8`}
       >
         {ingrTypes.map((element) => (
           <IngridientPanel

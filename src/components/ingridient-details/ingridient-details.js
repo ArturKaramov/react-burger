@@ -1,40 +1,47 @@
-import ingridientDetailsStyles from "./ingridient-details.module.css";
+import styles from "./ingridient-details.module.css";
+import { useMemo } from "react";
 import { ingrPropTypes } from "../../utils/prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router";
 
 function IngridientDetails() {
-  const details = useSelector((state) => state.burger.details);
+  const { id } = useParams();
+  const { items } = useSelector((state) => state.burger);
+
+  const ingr = useMemo(
+    () => items.find((item) => item._id === id),
+    [items, id]
+  );
+  console.log(id, ingr);
   const nutritionValues = [
     {
       name: "Калории, ккал",
-      value: details.calories,
+      value: ingr.calories,
     },
     {
       name: "Белки, г",
-      value: details.proteins,
+      value: ingr.proteins,
     },
     {
       name: "Жиры, г",
-      value: details.fat,
+      value: ingr.fat,
     },
     {
       name: "Углеводы, г",
-      value: details.carbohydrates,
+      value: ingr.carbohydrates,
     },
   ];
 
   return (
     <>
-      <h2
-        className={`${ingridientDetailsStyles.title} text text_type_main-large ml-10`}
-      >
+      <h2 className={`${styles.title} text text_type_main-large ml-10`}>
         Детали ингридиента
       </h2>
-      <img src={details.image_large} alt={details.name} />
-      <span className="text text_type_main-medium mt-4">{details.name}</span>
-      <ul className={`mt-8 ${ingridientDetailsStyles.values}`}>
+      <img src={ingr.image_large} alt={ingr.name} />
+      <span className="text text_type_main-medium mt-4">{ingr.name}</span>
+      <ul className={`mt-8 ${styles.values}`}>
         {nutritionValues.map((value, i) => (
-          <li key={i} className={`mr-5 ${ingridientDetailsStyles.value}`}>
+          <li key={i} className={`mr-5 ${styles.value}`}>
             <span className="text text_type_main-default text_color_inactive pb-2">
               {value.name}
             </span>

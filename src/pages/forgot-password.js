@@ -14,7 +14,7 @@ export const ForgotPage = () => {
       {
         question: "Вспомнили пароль",
         answer: "Войти",
-        link: "/login",
+        link: "react-burger/login",
       },
     ],
   };
@@ -25,7 +25,7 @@ export const ForgotPage = () => {
     api
       .resetPassword(email)
       .then((data) => console.log(data))
-      .then(() => navigate("/reset-password"));
+      .then(() => navigate("/react-burger/reset-password"));
   };
 
   return (

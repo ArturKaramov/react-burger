@@ -8,11 +8,16 @@ import PropTypes from "prop-types";
 import { ingrPropTypes } from "../../utils/prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { SHOW_DETAILS, CLEAR_DETAILS } from "../../services/actions/burger";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const IngridientPanel = React.forwardRef((props, ref) => {
   const dispatch = useDispatch();
-  const details = useSelector((state) => state.burger.details);
+  const navigate = useNavigate();
+  const details = useSelector((state) => state.burger.details.length);
+  const onClick = () => {
+    dispatch({ type: CLEAR_DETAILS });
+    navigate("/react-burger");
+  };
   return (
     <>
       <h2
@@ -26,16 +31,19 @@ const IngridientPanel = React.forwardRef((props, ref) => {
         {props.data.map((ingr) => (
           <li
             key={ingr._id}
-            onClick={() => dispatch({ type: SHOW_DETAILS, item: ingr })}
+            onClick={() => dispatch({ type: SHOW_DETAILS, item: ingr._id })}
           >
-            <Link to={`/ingredients/${ingr._id}`} className={styles.link}>
+            <Link
+              to={`/react-burger/ingredients/${ingr._id}`}
+              className={styles.link}
+            >
               <Ingridient data={ingr} />
             </Link>
           </li>
         ))}
       </ul>
-      {!!details._id && (
-        <Modal closeModal={() => dispatch({ type: CLEAR_DETAILS })}>
+      {details && (
+        <Modal closeModal={onClick}>
           <IngridientDetails />
         </Modal>
       )}

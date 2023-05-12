@@ -16,7 +16,7 @@ export const ResetPage = () => {
       {
         question: "Вспомнили пароль?",
         answer: "Войти",
-        link: "/login",
+        link: "/react-burger/login",
       },
     ],
   };
