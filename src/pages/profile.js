@@ -1,5 +1,5 @@
 import AppHeader from "../components/app-header/app-header";
-import { NavLink, useLocation } from "react-router-dom";
+import { ProfileNavigation } from "../components/profile-navigation/profile-navigation";
 import {
   Input,
   EmailInput,
@@ -7,14 +7,13 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
-import { api } from "../utils/api";
 import { updateUser } from "../services/actions/user";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
-  const { authSuccess, user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const [value, setValue] = useState({
     name: user.name,
     email: user.email,
@@ -33,48 +32,11 @@ export const ProfilePage = () => {
     dispatch(updateUser(value));
   };
 
-  const location = useLocation().pathname;
-
   return (
     <>
       <AppHeader />
       <main className={styles.main}>
-        <nav className={`${styles.menu} mr-15`}>
-          <NavLink
-            to="/react-burger/profile"
-            className={
-              location === "/react-burger/profile"
-                ? `${styles.activeLink} ${styles.link} text text_type_main-medium `
-                : `${styles.link} text text_type_main-medium text_color_inactive`
-            }
-          >
-            Профиль
-          </NavLink>
-
-          <NavLink
-            to={{ pathname: "react-burger/profile/orders" }}
-            className={
-              location === "/react-burger/profile/orders"
-                ? `${styles.activeLink} ${styles.link} text text_type_main-medium `
-                : `${styles.link} text text_type_main-medium text_color_inactive`
-            }
-          >
-            История заказов
-          </NavLink>
-          <NavLink
-            to={{ pathname: "/profile/orders/exit" }}
-            className={
-              location === "/profile/orders/exit"
-                ? `${styles.activeLink} ${styles.link} text text_type_main-medium `
-                : `${styles.link} text text_type_main-medium text_color_inactive`
-            }
-          >
-            Выход
-          </NavLink>
-          <span className="text text_type_main-default text_color_inactive mt-20">
-            В этом разделе вы можете изменить свои персональные данные
-          </span>
-        </nav>
+        <ProfileNavigation />
         <form>
           <Input
             type={"text"}

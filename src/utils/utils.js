@@ -9,7 +9,7 @@ export function setCookie(name, value, props) {
   if (exp && exp.toUTCString) {
     props.expires = exp.toUTCString();
   }
-  if (value.startsWith("Bearer ")) {
+  if (value !== null && value.startsWith("Bearer ")) {
     value = value.split("Bearer ")[1];
   }
   value = encodeURIComponent(value);
@@ -32,7 +32,7 @@ export function getCookie(name) {
         "=([^;]*)"
     )
   );
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+  return matches ? `Bearer ${decodeURIComponent(matches[1])}` : undefined;
 }
 
 export function deleteCookie(name) {

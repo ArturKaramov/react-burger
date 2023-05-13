@@ -56,11 +56,11 @@ class Api {
     });
   }
 
-  refreshToken(obj) {
+  refreshToken() {
     return this._request(`${this._url}/auth/token`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(obj),
+      body: JSON.stringify({ token: localStorage.getItem("refresh") }),
     });
   }
 

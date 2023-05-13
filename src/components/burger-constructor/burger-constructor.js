@@ -14,13 +14,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { ADD_INGR, setOrder, CLEAR_ORDER } from "../../services/actions/burger";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isOrderEmpty = !useSelector((state) => state.burger.constructor.length);
 
   const { orderRequest, orderFailed } = useSelector((state) => state.burger);
+  const { authSuccess } = useSelector((state) => state.user);
 
   const bun = useSelector((state) =>
     !state.burger.constructor.find((item) => item.type === BUN)
@@ -65,6 +68,14 @@ function BurgerConstructor() {
             .reduce((prevIngr, ingr) => ingr + prevIngr),
     [isOrderEmpty, products, bun]
   );
+
+  const onClick = () => {
+    authSuccess
+      ? dispatch(
+          setOrder([bun._id, ...products.map((item) => item._id), bun._id])
+        )
+      : navigate("/react-burger/login");
+  };
 
   return (
     <section ref={dropRef} className={`pt-25 pl-4 ${styles.burgerConstructor}`}>
@@ -113,11 +124,7 @@ function BurgerConstructor() {
           <CurrencyIcon type="primary" />
         </span>
         <Button
-          onClick={() =>
-            dispatch(
-              setOrder([bun._id, ...products.map((item) => item._id), bun._id])
-            )
-          }
+          onClick={onClick}
           htmlType="button"
           type="primary"
           size="large"

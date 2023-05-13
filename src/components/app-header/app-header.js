@@ -49,7 +49,7 @@ export default function AppHeader() {
           </p>
         </NavLink>
         <NavLink
-          to={"/react-burger/login"}
+          to={"/react-burger/profile"}
           className={`${styles.link} ${styles.personal} pl-5 pr-5 pb-4 pt-4`}
         >
           <ProfileIcon

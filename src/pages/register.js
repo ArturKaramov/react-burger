@@ -1,8 +1,10 @@
 import styles from "./register.module.css";
 import AppHeader from "../components/app-header/app-header";
 import { Form } from "../components/form/form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Navigate } from "react-router-dom";
 import { registerUser } from "../services/actions/user";
+import { Preloader } from "../components/preloader/preloader";
 
 export const RegisterPage = () => {
   const pageData = {
@@ -21,20 +23,30 @@ export const RegisterPage = () => {
       },
     ],
   };
+  const { authRequest, authSuccess } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onClick = (obj) => {
-    console.log(obj);
     dispatch(registerUser(obj));
+    navigate("/react-burger/login");
   };
 
   return (
     <>
-      <AppHeader />
-      <main className={styles.main}>
-        <Form {...pageData} buttonClick={onClick} />
-      </main>
+      {authRequest ? (
+        <Preloader />
+      ) : authSuccess ? (
+        <Navigate to="/react-burger/profile" />
+      ) : (
+        <>
+          <AppHeader />
+          <main className={styles.main}>
+            <Form {...pageData} buttonClick={onClick} />
+          </main>
+        </>
+      )}
     </>
   );
 };

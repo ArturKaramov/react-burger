@@ -32,28 +32,23 @@ export const LoginPage = () => {
   const { authRequest, authFailed, authSuccess } = useSelector(
     (state) => state.user
   );
+  const auth = useSelector((state) => !!state.user.user.name.length);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onClick = (obj) => {
     dispatch(loginUser(obj));
+    navigate(-1);
   };
 
   return (
     <>
-      {authRequest ? (
-        <Preloader />
-      ) : authFailed ? (
-        <Preloader />
-      ) : authSuccess ? (
-        <Navigate to={"/react-burger/profile"} />
-      ) : (
-        <>
-          <AppHeader />
-          <main className={styles.main}>
-            <Form {...pageData} buttonClick={onClick} />
-          </main>
-        </>
-      )}
+      <>
+        <AppHeader />
+        <main className={styles.main}>
+          <Form {...pageData} buttonClick={onClick} />
+        </main>
+      </>
     </>
   );
 };

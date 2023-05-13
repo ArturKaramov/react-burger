@@ -1,5 +1,5 @@
 import styles from "./form.module.css";
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
   EmailInput,
@@ -14,6 +14,11 @@ export const Form = (props) => {
   inputs.map((input) => (initValue[input.name] = ""));
 
   const [value, setValue] = React.useState(initValue);
+
+  const isDisabled = useMemo(
+    () => !Object.values(value).reduce((item, prevItem) => !!item * !!prevItem),
+    [value]
+  );
 
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -63,12 +68,16 @@ export const Form = (props) => {
           size="medium"
           extraClass="mb-20"
           onClick={() => buttonClick(value)}
+          disabled={isDisabled}
         >
           {button}
         </Button>
       </form>
       {links.map((item, i) => (
-        <p key={i} className="text text_type_main-default mb-4">
+        <p
+          key={i}
+          className="text text_type_main-default text_color_inactive mb-4"
+        >
           {item.question + " "}
           <Link to={item.link} className={styles.answer}>
             {item.answer}
