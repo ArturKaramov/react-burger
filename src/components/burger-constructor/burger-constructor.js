@@ -5,7 +5,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import { BUN } from "../../utils/data";
+import { BUN, loginUrl } from "../../utils/data";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import BurgerElement from "../burger-element/burger-element";
@@ -74,7 +74,7 @@ function BurgerConstructor() {
       ? dispatch(
           setOrder([bun._id, ...products.map((item) => item._id), bun._id])
         )
-      : navigate("/react-burger/login");
+      : navigate(loginUrl);
   };
 
   return (

@@ -1,8 +1,7 @@
 import styles from "./ingridient-details.module.css";
 import { useEffect, useMemo } from "react";
-import { ingrPropTypes } from "../../utils/prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { Preloader } from "../preloader/preloader";
 
 function IngridientDetails() {
@@ -13,8 +12,6 @@ function IngridientDetails() {
     () => items.find((item) => item._id === id),
     [items, id]
   );
-
-  console.log(id, ingr);
   const nutritionValues = [
     {
       name: "Калории, ккал",
@@ -36,7 +33,6 @@ function IngridientDetails() {
 
   return (
     <>
-      {" "}
       {ingr ? (
         <>
           <h2 className={`${styles.title} text text_type_main-large ml-10`}>

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Navigate } from "react-router-dom";
 import { registerUser } from "../services/actions/user";
 import { Preloader } from "../components/preloader/preloader";
+import { loginUrl, profileUrl } from "../utils/data";
 
 export const RegisterPage = () => {
   const pageData = {
@@ -19,7 +20,7 @@ export const RegisterPage = () => {
       {
         question: "Уже зарегистрированы?",
         answer: "Войти",
-        link: "/react-burger/login",
+        link: loginUrl,
       },
     ],
   };
@@ -30,7 +31,7 @@ export const RegisterPage = () => {
 
   const onClick = (obj) => {
     dispatch(registerUser(obj));
-    navigate("/react-burger/login");
+    navigate(loginUrl);
   };
 
   return (
@@ -38,7 +39,7 @@ export const RegisterPage = () => {
       {authRequest ? (
         <Preloader />
       ) : authSuccess ? (
-        <Navigate to="/react-burger/profile" />
+        <Navigate to={profileUrl} />
       ) : (
         <>
           <AppHeader />

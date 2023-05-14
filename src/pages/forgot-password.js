@@ -7,18 +7,18 @@ import { resetPassword } from "../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Preloader } from "../components/preloader/preloader";
 import { useEffect } from "react";
+import { loginUrl, resetUrl } from "../utils/data";
 
 export const ForgotPage = () => {
   const pageData = {
     title: "Восстановление пароля",
     inputs: [{ name: "email", placeholder: "Укажите email" }],
-    password: false,
     button: "Восстановить",
     links: [
       {
         question: "Вспомнили пароль",
         answer: "Войти",
-        link: "/react-burger/login",
+        link: loginUrl,
       },
     ],
   };
@@ -37,7 +37,7 @@ export const ForgotPage = () => {
       {passRequest ? (
         <Preloader />
       ) : passSuccess ? (
-        <Navigate to="/react-burger/reset-password" />
+        <Navigate to={resetUrl} />
       ) : (
         <>
           <AppHeader />

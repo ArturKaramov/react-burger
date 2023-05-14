@@ -27,7 +27,7 @@ export const Form = (props) => {
   return (
     <div className={styles.container}>
       <h1 className="text text_type_main-medium mb-6">{title}</h1>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={() => buttonClick(value)}>
         {inputs.map((item, i) =>
           item.name === "email" ? (
             <EmailInput
@@ -63,11 +63,10 @@ export const Form = (props) => {
           )
         )}
         <Button
-          htmlType="button"
+          htmlType="submit"
           type="primary"
           size="medium"
           extraClass="mb-20"
-          onClick={() => buttonClick(value)}
           disabled={isDisabled}
         >
           {button}

@@ -23,7 +23,9 @@
   color: #f2f2f3;
 }
 
-.logo {
-  grid-area: header;
+.logoLink {
   margin: 0 auto;
+  cursor: pointer;
+  grid-area: header;
+  z-index: 0;
 }

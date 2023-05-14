@@ -7,6 +7,8 @@ import { ProfilePage } from "./profile";
 import { IngridientPage } from "./ingridient";
 import { OrdersHistoryPage } from "./orders-history";
 import { ExitPage } from "./exit";
+import { ModalViewPage } from "./modal-view";
+import { FailPage } from "./fail";
 
 export {
   ConstructorPage,
@@ -18,4 +20,6 @@ export {
   IngridientPage,
   ExitPage,
   OrdersHistoryPage,
+  ModalViewPage,
+  FailPage,
 };

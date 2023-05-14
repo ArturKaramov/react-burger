@@ -1,8 +1,8 @@
 import { Navigate, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-import React from "react";
+import { loginUrl } from "../../utils/data";
 
 export const ProtectedRouteElement = ({ element }) => {
   const auth = useSelector((state) => state.user.authSuccess);
-  return auth ? element : <Navigate to="/react-burger/login" />;
+  return auth ? element : <Navigate to={loginUrl} />;
 };

@@ -4,29 +4,27 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
 import styles from "./app-header.module.css";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
+import { baseUrl, feedUrl, profileUrl } from "../../utils/data";
 
 export default function AppHeader() {
   const location = useLocation().pathname;
 
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
-      <div className={styles.logo}>
+      <NavLink to={baseUrl} className={styles.logoLink}>
         <Logo />
-      </div>
+      </NavLink>
       <nav className={styles.menu}>
         <NavLink
-          to={"/react-burger"}
+          to={baseUrl}
           className={`${styles.link} pl-5 pr-5 pb-4 pt-4 mr-2`}
         >
-          <BurgerIcon
-            type={location === "/react-burger" ? "primary" : "secondary"}
-          />
+          <BurgerIcon type={location === baseUrl ? "primary" : "secondary"} />
           <p
             className={
-              location === "/react-burger"
+              location === baseUrl
                 ? "text text_type_main-default pl-2"
                 : "text text_type_main-default text_color_inactive pl-2"
             }
@@ -35,12 +33,10 @@ export default function AppHeader() {
           </p>
         </NavLink>
         <NavLink className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}>
-          <ListIcon
-            type={location === "/react-burger/feed" ? "primary" : "secondary"}
-          />
+          <ListIcon type={location === feedUrl ? "primary" : "secondary"} />
           <p
             className={
-              location === "/react-burger/feed"
+              location === feedUrl
                 ? "text text_type_main-default pl-2"
                 : "text text_type_main-default text_color_inactive pl-2"
             }
@@ -48,25 +44,20 @@ export default function AppHeader() {
             Лента заказов
           </p>
         </NavLink>
-        <NavLink
-          to={"/react-burger/profile"}
-          className={`${styles.link} ${styles.personal} pl-5 pr-5 pb-4 pt-4`}
-        >
+        <Link to={profileUrl} className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}>
           <ProfileIcon
-            type={
-              location === "/react-burger/profile" ? "primary" : "secondary"
-            }
+            type={location.startsWith(profileUrl) ? "primary" : "secondary"}
           />
           <p
             className={
-              location === "/react-burger/profile"
+              location.startsWith(profileUrl)
                 ? "text text_type_main-default pl-2"
                 : "text text_type_main-default text_color_inactive pl-2"
             }
           >
             Личный кабинет
           </p>
-        </NavLink>
+        </Link>
       </nav>
     </header>
   );

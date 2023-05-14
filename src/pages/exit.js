@@ -5,6 +5,7 @@ import { ProfileNavigation } from "../components/profile-navigation/profile-navi
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { logoutUser } from "../services/actions/user";
 import { useDispatch } from "react-redux";
+import { baseUrl } from "../utils/data";
 
 export const ExitPage = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ export const ExitPage = () => {
 
   const confirmExit = () => {
     dispatch(logoutUser());
-    navigate("/react-burger", { replace: true });
+    navigate(baseUrl, { replace: true });
   };
   return (
     <>

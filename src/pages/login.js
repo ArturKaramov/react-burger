@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router";
 import { useEffect } from "react";
 import { Preloader } from "../components/preloader/preloader";
+import { forgotUrl, registerUrl } from "../utils/data";
 
 export const LoginPage = () => {
   const pageData = {
@@ -19,22 +20,18 @@ export const LoginPage = () => {
       {
         question: "Вы — новый пользователь?",
         answer: "Зарегистрироваться",
-        link: "/react-burger/register",
+        link: registerUrl,
       },
       {
         question: "Забыли пароль?",
         answer: "Восстановить пароль",
-        link: "/react-burger/forgot-password",
+        link: forgotUrl,
       },
     ],
   };
-
-  const { authRequest, authFailed, authSuccess } = useSelector(
-    (state) => state.user
-  );
-  const auth = useSelector((state) => !!state.user.user.name.length);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { authRequest, authSuccess } = useSelector((state) => state.user);
 
   const onClick = (obj) => {
     dispatch(loginUser(obj));
@@ -43,12 +40,16 @@ export const LoginPage = () => {
 
   return (
     <>
-      <>
-        <AppHeader />
-        <main className={styles.main}>
-          <Form {...pageData} buttonClick={onClick} />
-        </main>
-      </>
+      {authRequest ? (
+        <Preloader />
+      ) : (
+        <>
+          <AppHeader />
+          <main className={styles.main}>
+            <Form {...pageData} buttonClick={onClick} />
+          </main>
+        </>
+      )}
     </>
   );
 };

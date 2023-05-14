@@ -103,11 +103,6 @@ export const userReducer = (state = initialState, action) => {
         newPassSuccess: false,
       };
     }
-    case REFRESH_TOKEN: {
-      return {
-        ...state,
-      };
-    }
     case LOGOUT: {
       return initialState;
     }

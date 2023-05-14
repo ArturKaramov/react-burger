@@ -20,7 +20,7 @@ export const loginUser = (obj) => {
       .loginUser(obj)
       .then((res) => {
         dispatch({ type: AUTH_SUCCESS, data: res });
-        setCookie("token", res.accessToken, { expires: 1200 });
+        setCookie("token", res.accessToken);
         localStorage.setItem("refresh", res.refreshToken);
       })
       .catch(() => dispatch({ type: AUTH_FAILED }));
@@ -37,7 +37,7 @@ export const registerUser = (obj) => {
           type: AUTH_SUCCESS,
           data: res,
         });
-        setCookie("token", res.accessToken, { expires: 1200 });
+        setCookie("token", res.accessToken);
         localStorage.setItem("refresh", res.refreshToken);
       })
       .catch(() => dispatch({ type: AUTH_FAILED }));
@@ -82,7 +82,11 @@ export const getUserInfo = () => {
           data: res,
         })
       )
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        err.message === "jwt expired"
+          ? dispatch(refreshToken())
+          : console.error(err.message);
+      });
   };
 };
 
@@ -91,10 +95,10 @@ export const refreshToken = () => {
     api
       .refreshToken()
       .then((res) => {
-        dispatch({ type: REFRESH_TOKEN, data: res });
-        setCookie("token", res.accessToken, { expires: 1200 });
+        setCookie("token", res.accessToken);
         localStorage.setItem("refresh", res.refreshToken);
       })
+      .then(() => dispatch(getUserInfo()))
       .catch((err) => console.error(err));
   };
 };

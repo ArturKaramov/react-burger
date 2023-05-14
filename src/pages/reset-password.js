@@ -7,6 +7,7 @@ import { createNewPassword } from "../services/actions/user";
 import { useNavigate, Navigate } from "react-router";
 import { useEffect } from "react";
 import { Preloader } from "../components/preloader/preloader";
+import { loginUrl } from "../utils/data";
 
 export const ResetPage = () => {
   const pageData = {
@@ -20,7 +21,7 @@ export const ResetPage = () => {
       {
         question: "Вспомнили пароль?",
         answer: "Войти",
-        link: "/react-burger/login",
+        link: loginUrl,
       },
     ],
   };
@@ -34,7 +35,7 @@ export const ResetPage = () => {
   const onClick = (password) => {
     dispatch(createNewPassword(password));
     if (newPassSuccess) {
-      navigate("/react-burger/login");
+      navigate(loginUrl);
     }
   };
 
@@ -43,7 +44,7 @@ export const ResetPage = () => {
       {newPassRequest ? (
         <Preloader />
       ) : newPassSuccess ? (
-        <Navigate to="/react-burger/login" />
+        <Navigate to={loginUrl} />
       ) : (
         <>
           <AppHeader />

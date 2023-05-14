@@ -1,4 +1,4 @@
-export function setCookie(name, value, props) {
+export function setCookie(name, value, props = { path: "/" }) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == "number" && exp) {
@@ -36,5 +36,5 @@ export function getCookie(name) {
 }
 
 export function deleteCookie(name) {
-  setCookie(name, null, { expires: -1 });
+  setCookie(name, null, { expires: -1, path: "/" });
 }

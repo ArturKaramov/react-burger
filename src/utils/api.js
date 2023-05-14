@@ -18,6 +18,14 @@ class Api {
       : fetch(url).then((res) => this._isResponseOk(res));
   }
 
+  _requestWithErrorMessage(url, options) {
+    return fetch(url, options).then((response) =>
+      response.ok
+        ? response.json()
+        : response.json().then((err) => Promise.reject(err))
+    );
+  }
+
   getData() {
     return this._request(`${this._url}/ingredients`);
   }
@@ -81,7 +89,7 @@ class Api {
   }
 
   getUserInfo() {
-    return this._request(`${this._url}/auth/user`, {
+    return this._requestWithErrorMessage(`${this._url}/auth/user`, {
       method: "GET",
       headers: {
         authorization: getCookie("token"),
