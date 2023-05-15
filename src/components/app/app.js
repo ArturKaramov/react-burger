@@ -40,8 +40,6 @@ function App() {
   const background = location.state && location.state.background;
 
   const init = () => {
-    console.log(getCookie("token"));
-    console.log(localStorage.getItem("refresh"));
     if (!user.name.length) {
       if (getCookie("token")) {
         dispatch(getUserInfo());

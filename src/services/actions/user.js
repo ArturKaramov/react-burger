@@ -83,23 +83,8 @@ export const getUserInfo = () => {
         })
       )
       .catch((err) => {
-        err.message === "jwt expired"
-          ? dispatch(refreshToken())
-          : console.error(err.message);
+        console.error(err.message);
       });
-  };
-};
-
-export const refreshToken = () => {
-  return function (dispatch) {
-    api
-      .refreshToken()
-      .then((res) => {
-        setCookie("token", res.accessToken);
-        localStorage.setItem("refresh", res.refreshToken);
-      })
-      .then(() => dispatch(getUserInfo()))
-      .catch((err) => console.error(err));
   };
 };
 

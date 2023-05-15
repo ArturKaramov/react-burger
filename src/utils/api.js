@@ -1,5 +1,5 @@
 import { url } from "./data";
-import { getCookie } from "./utils";
+import { setCookie, getCookie } from "./utils";
 
 class Api {
   constructor(url) {
@@ -12,18 +12,42 @@ class Api {
       : Promise.reject(`Ошибка: ${response.status}`);
   }
 
+  _checkForRefresh(response) {
+    return response.ok
+      ? response.json()
+      : response.json().then((err) => Promise.reject(err));
+  }
+
   _request(url, options = "") {
     return options
       ? fetch(url, options).then((res) => this._isResponseOk(res))
       : fetch(url).then((res) => this._isResponseOk(res));
   }
 
-  _requestWithErrorMessage(url, options) {
-    return fetch(url, options).then((response) =>
-      response.ok
-        ? response.json()
-        : response.json().then((err) => Promise.reject(err))
-    );
+  _refreshToken() {
+    return this._request(`${this._url}/auth/token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: localStorage.getItem("refresh") }),
+    })
+      .then((res) => {
+        setCookie("token", res.accessToken);
+        localStorage.setItem("refresh", res.refreshToken);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  _requestWithRefresh(url, options) {
+    return fetch(url, options)
+      .then((res) => this._checkForRefresh(res))
+      .catch((err) =>
+        err.message === "jwt expired"
+          ? this._refreshToken().then(() => {
+              options.headers.authorization = getCookie("token");
+              this._requestWithRefresh(url, options);
+            })
+          : console.error(err.message)
+      );
   }
 
   getData() {
@@ -64,14 +88,6 @@ class Api {
     });
   }
 
-  refreshToken() {
-    return this._request(`${this._url}/auth/token`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: localStorage.getItem("refresh") }),
-    });
-  }
-
   resetPassword(obj) {
     return this._request(`${this._url}/password-reset`, {
       method: "POST",
@@ -89,7 +105,7 @@ class Api {
   }
 
   getUserInfo() {
-    return this._requestWithErrorMessage(`${this._url}/auth/user`, {
+    return this._requestWithRefresh(`${this._url}/auth/user`, {
       method: "GET",
       headers: {
         authorization: getCookie("token"),
@@ -99,7 +115,7 @@ class Api {
   }
 
   updateUserInfo(obj) {
-    return this._request(`${this._url}/auth/user`, {
+    return this._requestWithRefresh(`${this._url}/auth/user`, {
       method: "PATCH",
       headers: {
         authorization: getCookie("token"),
