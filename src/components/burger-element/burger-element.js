@@ -6,7 +6,7 @@ import {
 import style from "./burger-element.module.css";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { DELETE_INGR, MOVE_INGRS } from "../../services/actions";
+import { DELETE_INGR, MOVE_INGRS } from "../../services/actions/burger";
 
 function BurgerElement({ data, index }) {
   const { name, price, image } = data;

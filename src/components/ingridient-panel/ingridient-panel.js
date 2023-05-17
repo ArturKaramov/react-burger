@@ -1,17 +1,25 @@
 import React from "react";
 import Ingridient from "../ingridient/ingridient";
-import ingridientPanelStyle from "./ingridient-panel.module.css";
+import styles from "./ingridient-panel.module.css";
 import { ingrTypePropTypes } from "../../utils/prop-types";
 import Modal from "../modal/modal";
 import IngridientDetails from "../ingridient-details/ingridient-details";
 import PropTypes from "prop-types";
 import { ingrPropTypes } from "../../utils/prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { SHOW_DETAILS, CLEAR_DETAILS } from "../../services/actions";
+import { SHOW_DETAILS, CLEAR_DETAILS } from "../../services/actions/burger";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { baseUrl, ingredientUrl } from "../../utils/data";
 
 const IngridientPanel = React.forwardRef((props, ref) => {
-  const dispatch = useDispatch();
-  const details = useSelector((state) => state.burger.details);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const onClickIngr = (id) => {
+    navigate(ingredientUrl + "/" + id, {
+      replace: true,
+      state: { background: location.pathname },
+    });
+  };
   return (
     <>
       <h2
@@ -21,21 +29,13 @@ const IngridientPanel = React.forwardRef((props, ref) => {
       >
         {props.type.name}
       </h2>
-      <ul className={`${ingridientPanelStyle.ingridientList} pb-10`}>
+      <ul className={`${styles.ingridientList} pb-10`}>
         {props.data.map((ingr) => (
-          <li
-            key={ingr._id}
-            onClick={() => dispatch({ type: SHOW_DETAILS, item: ingr })}
-          >
+          <li key={ingr._id} onClick={() => onClickIngr(ingr._id)}>
             <Ingridient data={ingr} />
           </li>
         ))}
       </ul>
-      {!!details._id && (
-        <Modal closeModal={() => dispatch({ type: CLEAR_DETAILS })}>
-          <IngridientDetails />
-        </Modal>
-      )}
     </>
   );
 });

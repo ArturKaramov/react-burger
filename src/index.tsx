@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './components/app/app.js';
+import App from './components/app/app';
 import { rootReducer } from './services/reducers';
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { BrowserRouter } from 'react-router-dom';
 
 const composeEnhancers = composeWithDevTools({});
 
@@ -18,6 +19,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter> 
   </Provider>
 );

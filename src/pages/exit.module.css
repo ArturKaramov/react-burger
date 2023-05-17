@@ -1,0 +1,13 @@
+.main {
+  display: flex;
+  max-width: 1240px;
+  margin: 0 auto;
+  margin-top: 120px;
+}
+
+.confirm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}

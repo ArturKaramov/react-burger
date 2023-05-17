@@ -4,23 +4,26 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerConstructorStyles from "./burger-constructor.module.css";
-import { BUN } from "../../utils/data";
+import styles from "./burger-constructor.module.css";
+import { BUN, loginUrl } from "../../utils/data";
 import Modal from "../modal/modal";
-import burger from "../../images/burger.svg";
 import OrderDetails from "../order-details/order-details";
 import BurgerElement from "../burger-element/burger-element";
+import { Preloader } from "../preloader/preloader";
 import { useSelector, useDispatch } from "react-redux";
-import { ADD_INGR, setOrder, CLEAR_ORDER } from "../../services/actions";
+import { ADD_INGR, setOrder, CLEAR_ORDER } from "../../services/actions/burger";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isOrderEmpty = !useSelector((state) => state.burger.constructor.length);
 
   const { orderRequest, orderFailed } = useSelector((state) => state.burger);
+  const { authSuccess } = useSelector((state) => state.user);
 
   const bun = useSelector((state) =>
     !state.burger.constructor.find((item) => item.type === BUN)
@@ -66,16 +69,18 @@ function BurgerConstructor() {
     [isOrderEmpty, products, bun]
   );
 
+  const onClick = () => {
+    authSuccess
+      ? dispatch(
+          setOrder([bun._id, ...products.map((item) => item._id), bun._id])
+        )
+      : navigate(loginUrl);
+  };
+
   return (
-    <section
-      ref={dropRef}
-      className={`pt-25 pl-4 ${burgerConstructorStyles.burgerConstructor}`}
-    >
+    <section ref={dropRef} className={`pt-25 pl-4 ${styles.burgerConstructor}`}>
       {isOrderEmpty ? (
-        <section
-          className={` ${burgerConstructorStyles.empty}`}
-          style={{ outlineColor }}
-        >
+        <section className={` ${styles.empty}`} style={{ outlineColor }}>
           {isHover && !isBun ? (
             <span className="text text_type_main-medium">
               Сперва, выберите булку
@@ -97,9 +102,7 @@ function BurgerConstructor() {
               thumbnail={bun.image}
             />
           </div>
-          <ul
-            className={`mt-4 mb-4 ${burgerConstructorStyles.burgerConstructorList}`}
-          >
+          <ul className={`mt-4 mb-4 ${styles.burgerConstructorList}`}>
             {products.map((ingr, i) => (
               <BurgerElement data={ingr} index={i} key={ingr.key} />
             ))}
@@ -115,17 +118,13 @@ function BurgerConstructor() {
           </div>
         </>
       )}
-      <div className={`pt-10 pr-4 ${burgerConstructorStyles.totalPrice}`}>
+      <div className={`pt-10 pr-4 ${styles.totalPrice}`}>
         <p className="pr-2 text text_type_digits-medium">{totalPrice}</p>
-        <span className={`${burgerConstructorStyles.currency} pr-10`}>
+        <span className={`${styles.currency} pr-10`}>
           <CurrencyIcon type="primary" />
         </span>
         <Button
-          onClick={() =>
-            dispatch(
-              setOrder([bun._id, ...products.map((item) => item._id), bun._id])
-            )
-          }
+          onClick={onClick}
           htmlType="button"
           type="primary"
           size="large"
@@ -135,15 +134,9 @@ function BurgerConstructor() {
         </Button>
       </div>
       {orderRequest ? (
-        <div className={burgerConstructorStyles.preloader}>
-          <img
-            src={burger}
-            alt="Burger"
-            className={burgerConstructorStyles.burger}
-          ></img>
-        </div>
+        <Preloader />
       ) : orderFailed ? (
-        <div className={burgerConstructorStyles.preloader}>
+        <div className={styles.error}>
           <span className="text text_type_main-medium">
             Кажется, произошла ошибка. :&lang;
           </span>
@@ -153,7 +146,11 @@ function BurgerConstructor() {
         </div>
       ) : (
         Boolean(order) && (
-          <Modal closeModal={() => dispatch({ type: CLEAR_ORDER })}>
+          <Modal
+            closeModal={() => {
+              dispatch({ type: CLEAR_ORDER });
+            }}
+          >
             <OrderDetails />
           </Modal>
         )
