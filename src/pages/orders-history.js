@@ -1,14 +1,30 @@
 import styles from "./orders-history.module.css";
+import { useEffect } from "react";
 import AppHeader from "../components/app-header/app-header";
 import { ProfileNavigation } from "../components/profile-navigation/profile-navigation";
+import { OrderFeed } from "../components/order-feed/order-feed";
+import { WS_USERFEED_CONNECTION_START } from "../services/actions/userFeed";
+import { useDispatch } from "react-redux";
+import { getCookie } from "../utils/utils";
+import { Outlet } from "react-router";
 
 export const OrdersHistoryPage = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() =>
+    dispatch({
+      type: WS_USERFEED_CONNECTION_START,
+      payload: getCookie("token").split("Bearer ")[1],
+    })
+  );
+
   return (
     <>
       <AppHeader />
       <main className={styles.main}>
         <ProfileNavigation />
-        <div></div>
+        <OrderFeed />
+        <Outlet />
       </main>
     </>
   );

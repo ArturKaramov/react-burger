@@ -17,6 +17,7 @@ import {
   ExitPage,
   ModalViewPage,
   FailPage,
+  FeedPage,
 } from "../../pages";
 import {
   baseUrl,
@@ -28,6 +29,7 @@ import {
   ingredientUrl,
   orderHistoryUrl,
   exitUrl,
+  feedUrl,
 } from "../../utils/data.js";
 import { getUserInfo, refreshToken } from "../../services/actions/user";
 
@@ -82,11 +84,15 @@ function App() {
           path={profileUrl}
           element={<ProtectedRouteElement element={<ProfilePage />} />}
         />
-
+        <Route path={feedUrl} element={<FeedPage />}>
+          <Route path={feedUrl + "/:id"} element={<ModalViewPage />} />
+        </Route>
         <Route
           path={orderHistoryUrl}
           element={<ProtectedRouteElement element={<OrdersHistoryPage />} />}
-        />
+        >
+          <Route path={orderHistoryUrl + "/:id"} element={<ModalViewPage />} />
+        </Route>
         <Route
           path={exitUrl}
           element={<ProtectedRouteElement element={<ExitPage />} />}

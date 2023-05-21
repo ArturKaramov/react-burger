@@ -57,7 +57,10 @@ class Api {
   createOrder(arr) {
     return this._request(`${this._url}/orders`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: getCookie("token"),
+      },
       body: JSON.stringify({
         ingredients: arr,
       }),

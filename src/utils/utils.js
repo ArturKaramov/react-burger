@@ -38,3 +38,29 @@ export function getCookie(name) {
 export function deleteCookie(name) {
   setCookie(name, null, { expires: -1, path: "/" });
 }
+
+export function getDate(date) {
+  const correctWord = {
+    0: "Сегодня",
+    1: "Вчера",
+    2: "дня назад",
+    5: "дней назад",
+  };
+  let orderTime = new Date(date);
+  let now = new Date();
+  let days = now.getDay() - orderTime.getDay();
+  let daysAgo;
+
+  if (days <= 1) {
+    daysAgo = correctWord[days];
+  } else if (days > 1 && days < 6) {
+    daysAgo = days + correctWord[2];
+  } else {
+    daysAgo = days + correctWord[5];
+  }
+
+  return `${daysAgo}, ${orderTime.toLocaleString("ru", {
+    hour: "numeric",
+    minute: "numeric",
+  })} i-GMT+3`;
+}

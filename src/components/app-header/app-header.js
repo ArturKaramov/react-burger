@@ -32,7 +32,7 @@ export default function AppHeader() {
             Конструктор
           </p>
         </NavLink>
-        <NavLink className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}>
+        <NavLink to={feedUrl} className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}>
           <ListIcon type={location === feedUrl ? "primary" : "secondary"} />
           <p
             className={

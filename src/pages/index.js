@@ -9,6 +9,7 @@ import { OrdersHistoryPage } from "./orders-history";
 import { ExitPage } from "./exit";
 import { ModalViewPage } from "./modal-view";
 import { FailPage } from "./fail";
+import { FeedPage } from "./feed";
 
 export {
   ConstructorPage,
@@ -22,4 +23,5 @@ export {
   OrdersHistoryPage,
   ModalViewPage,
   FailPage,
+  FeedPage,
 };
