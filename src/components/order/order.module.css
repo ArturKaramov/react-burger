@@ -4,17 +4,21 @@
   border-radius: 40px;
   display: grid;
   box-sizing: border-box;
-  max-width: 584px;
   width: 100%;
   grid-template-columns: repeat(2, minmax(50%, max-content));
-  grid-template-rows: repeat(3, max-content);
-  justify-content: center;
-  align-content: center;
+  grid-template-rows: repeat(4, max-content);
   justify-items: start;
   align-items: center;
   grid-template-areas: "id time"
                         "name name"
+                        "status status"
                         "items price";
+  cursor: pointer;
+}
+
+.order:hover {
+  transform: scale(0.99);
+  outline: 2px solid #4C4CFF;
 }
 
 .id {
@@ -28,6 +32,10 @@
 
 .name {
   grid-area: name;
+}
+
+.status {
+  grid-area: status;
 }
 
 .components {

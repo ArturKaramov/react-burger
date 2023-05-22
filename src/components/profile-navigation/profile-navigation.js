@@ -21,7 +21,7 @@ export const ProfileNavigation = () => {
       <NavLink
         to={orderHistoryUrl}
         className={
-          location === orderHistoryUrl
+          location.startsWith(orderHistoryUrl)
             ? `${styles.activeLink} ${styles.link} text text_type_main-medium `
             : `${styles.link} text text_type_main-medium text_color_inactive`
         }
@@ -43,7 +43,7 @@ export const ProfileNavigation = () => {
           В этом разделе вы можете изменить свои персональные данные
         </span>
       )}
-      {location === orderHistoryUrl && (
+      {location.startsWith(orderHistoryUrl) && (
         <span className="text text_type_main-default text_color_inactive mt-20">
           В этом разделе вы можете просмотреть свою историю заказов
         </span>

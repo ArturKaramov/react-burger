@@ -1,8 +1,6 @@
 .title {
-  min-height: 64px;
+  line-height: 64px;
   align-self: flex-start;
-  display: flex;
-  align-items: center;
 }
 
 .values {

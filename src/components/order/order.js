@@ -1,10 +1,10 @@
 import styles from "./order.module.css";
 import { getDate } from "../../utils/utils";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { maxIngr } from "../../utils/data";
+import { maxIngr, orderHistoryUrl, statuses } from "../../utils/data";
 
 export const Order = ({ order }) => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const Order = ({ order }) => {
   return (
     <li
       onClick={onClick}
-      className={`mb-4 mr-2 pl-6 pr-6 pb-6 pt-6 ${styles.order}`}
+      className={`mb-4 pl-6 pr-6 pb-6 pt-6 ${styles.order}`}
     >
       <span
         className={`text text_type_digits-default ${styles.id}`}
@@ -39,10 +39,18 @@ export const Order = ({ order }) => {
       >
         {getDate(order.createdAt)}
       </span>
-      <h2 className={`mb-6 text text_type_main-medium ${styles.name}`}>
+      <h2 className={`mt-6 text text_type_main-medium ${styles.name}`}>
         {order.name}
       </h2>
-      <ul className={`ml-4 ${styles.components}`}>
+      {location.pathname === orderHistoryUrl && (
+        <p
+          className={`${styles.status} text text_type_main-default mt-2`}
+          style={{ color: order.status === "done" && "#00cccc" }}
+        >
+          {statuses[order.status]}
+        </p>
+      )}
+      <ul className={`ml-4 mt-6 ${styles.components}`}>
         {order.ingredients
           .slice(0, maxIngr)
           .reverse()

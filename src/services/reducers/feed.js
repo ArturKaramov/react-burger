@@ -35,6 +35,17 @@ export const wsFeedReducer = (state = initialState, action) => {
       };
     }
     case WS_GET_ORDERS: {
+      //проверка на наличие null в списке ингридиентов, т.к. попадались такие
+      action.payload.orders.map((order) => {
+        let arr = [];
+        for (let i = 0; i < order.ingredients.length; i++) {
+          if (order.ingredients[i]) {
+            arr.push(order.ingredients[i]);
+          }
+        }
+        order.ingredients = arr;
+      });
+
       return {
         ...state,
         orders: [...action.payload.orders],

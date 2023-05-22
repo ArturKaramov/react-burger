@@ -9,15 +9,6 @@ import { getCookie } from "../utils/utils";
 import { Outlet } from "react-router";
 
 export const OrdersHistoryPage = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() =>
-    dispatch({
-      type: WS_USERFEED_CONNECTION_START,
-      payload: getCookie("token").split("Bearer ")[1],
-    })
-  );
-
   return (
     <>
       <AppHeader />

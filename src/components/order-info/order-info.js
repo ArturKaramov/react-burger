@@ -1,63 +1,73 @@
 import styles from "./order-info.module.css";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Preloader } from "../preloader/preloader";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getDate } from "../../utils/utils";
-import { feedUrl } from "../../utils/data";
+import { feedUrl, loginUrl, orderHistoryUrl, statuses } from "../../utils/data";
 
 export const OrderInfo = () => {
   const { id } = useParams();
   const allOrders = useSelector((state) => state.feed.orders);
   const userOrders = useSelector((state) => state.userFeed.orders);
   const { items } = useSelector((state) => state.burger);
+  const { authSuccess } = useSelector((state) => state.user);
   const location = useLocation();
-  const orders = allOrders;
+  const navigate = useNavigate();
 
-  const order = useMemo(
-    () => orders.find((item) => item._id === id),
-    [orders, id]
-  );
+  useEffect(() => {
+    if (!authSuccess && location.pathname.startsWith(orderHistoryUrl)) {
+      navigate(loginUrl);
+    }
+  });
+
+  const orders = location.pathname.startsWith(feedUrl) ? allOrders : userOrders;
+
+  const order = orders.find((item) => item._id === id);
+
+  const totalPrice =
+    !!order &&
+    order.ingredients
+      .map((ingr) => items.find((item) => item._id === ingr).price)
+      .reduce((ingr, prevIngr) => ingr + prevIngr);
 
   const ingredientsData = useMemo(() => {
-    const uniqArr = {};
-    for (let i = 0; i < order.ingredients.length; i++) {
-      if (!uniqArr[order.ingredients[i]]) {
-        uniqArr[order.ingredients[i]] = 1;
-      } else {
-        uniqArr[order.ingredients[i]] += 1;
+    if (!!order) {
+      const uniqArr = {};
+      for (let i = 0; i < order.ingredients.length; i++) {
+        if (!uniqArr[order.ingredients[i]]) {
+          uniqArr[order.ingredients[i]] = 1;
+        } else {
+          uniqArr[order.ingredients[i]] += 1;
+        }
       }
+      const arr = Object.keys(uniqArr).map((ingr) =>
+        items.find((item) => item._id === ingr)
+      );
+
+      arr.forEach((item) => {
+        item.quantity = uniqArr[item._id];
+      });
+
+      return arr;
     }
-    const arr = Object.keys(uniqArr).map((ingr) =>
-      items.find((item) => item._id === ingr)
-    );
-
-    arr.forEach((item) => {
-      item.quantity = uniqArr[item._id];
-    });
-
-    return arr;
   }, [items, order]);
-
-  const totalPrice = useMemo(
-    () =>
-      order.ingredients
-        .map((ingr) => items.find((item) => item._id === ingr).price)
-        .reduce((ingr, prevIngr) => ingr + prevIngr),
-    [items, order]
-  );
 
   return (
     <>
-      {ingredientsData.length ? (
-        <div className={`${styles.orderInfo} pl-10 pr-10`}>
-          <p className="text text_type_digits-default mb-10">{`#${order.number}`}</p>
+      {order ? (
+        <div className={`${styles.orderInfo}`}>
+          <p
+            className={`text text_type_digits-default mb-10 ${
+              location.state ? styles.numberModal : styles.numberPage
+            }`}
+          >{`#${order.number}`}</p>
           <h2 className={`text text_type_main-medium mb-3 ${styles.name}`}>
             {order.name}
           </h2>
           <p className={`${styles.status} text text_type_main-default mb-15`}>
-            {order.status === "done" ? "Выполнен" : ""}
+            {statuses[order.status]}
           </p>
           <p className="text text_type_main-medium mb-6">Состав:</p>
           <ul className={styles.componentList}>

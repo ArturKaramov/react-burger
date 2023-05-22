@@ -2,11 +2,10 @@
   display: grid;
   max-width: 1240px;
   width: 100%;
+  box-sizing: border-box;
   margin: 0 auto;
-  grid-template-columns: 600px 1fr;
+  grid-template-columns: repeat(2, max-content);
   grid-template-rows: repeat(2, max-content);
-  align-items: start;
-  align-content: space-between;
   grid-template-areas: 'title title'
                         'feed info';
 }
@@ -19,7 +18,7 @@
   display: grid;
   max-width: 580px;
   width: 100%;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(272px, 1fr));
   grid-template-rows: repeat(6, max-content);
   grid-template-areas: "done process"
                         "doneOrders processOrders"
@@ -43,6 +42,11 @@
   grid-area: doneOrders;
   list-style-type: none;
   color: #00CCCC;
+  display: grid;
+  grid-template-rows: repeat(10, minmax(0, max-content));
+  grid-auto-flow: column;
+  gap: 2px;
+
 }
 
 .processOrders {

@@ -7,6 +7,15 @@
   margin-bottom: -20px;
 }
 
+.numberModal {
+  line-height: 64px;
+  margin-bottom: 20px;
+}
+
+.numberPage {
+  align-self: center;
+}
+
 .name {
   text-align: start;
 }

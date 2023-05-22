@@ -6,7 +6,7 @@ import propTypes from "prop-types";
 const Modal = (props) => {
   return (
     <ModalOverlay closeModal={props.closeModal}>
-      <div className={`pt-10 pb-15 ${modalStyles.modal}`}>
+      <div className={`pt-10 pb-15 pr-10 pl-10 ${modalStyles.modal}`}>
         <div
           onClick={props.closeModal}
           className={`mt-15 mr-10 ${modalStyles.close}`}

@@ -35,7 +35,7 @@ function IngridientDetails() {
     <>
       {ingr ? (
         <>
-          <h2 className={`${styles.title} text text_type_main-large ml-10`}>
+          <h2 className={`${styles.title} text text_type_main-large`}>
             Детали ингридиента
           </h2>
           <img src={ingr.image_large} alt={ingr.name} />

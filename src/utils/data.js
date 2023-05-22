@@ -4,6 +4,11 @@ export const SAUCE = "sauce";
 export const modalRoot = document.getElementById("modal-root");
 export const url = "https://norma.nomoreparties.space/api";
 export const maxIngr = 6; //максимальное количество показанных в ленте заказов ингридиентов по каждому заказу
+export const statuses = {
+  done: "Выполнен",
+  pending: "Готовится",
+  created: "Создан",
+};
 
 export const baseUrl = "/react-burger";
 export const loginUrl = baseUrl + "/login";

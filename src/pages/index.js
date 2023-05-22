@@ -4,12 +4,13 @@ import { RegisterPage } from "./register";
 import { ForgotPage } from "./forgot-password";
 import { ResetPage } from "./reset-password";
 import { ProfilePage } from "./profile";
-import { IngridientPage } from "./ingridient";
+import { FullViewPage } from "./full-view";
 import { OrdersHistoryPage } from "./orders-history";
 import { ExitPage } from "./exit";
 import { ModalViewPage } from "./modal-view";
 import { FailPage } from "./fail";
 import { FeedPage } from "./feed";
+import { OrderPage } from "./order";
 
 export {
   ConstructorPage,
@@ -18,10 +19,11 @@ export {
   ForgotPage,
   ResetPage,
   ProfilePage,
-  IngridientPage,
+  FullViewPage,
   ExitPage,
   OrdersHistoryPage,
   ModalViewPage,
   FailPage,
   FeedPage,
+  OrderPage,
 };

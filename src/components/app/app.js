@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports.js";
 import { getIngredients } from "../../services/actions/burger.js";
 import { ProtectedRouteElement } from "../protected-route/protected-route";
 import { Routes, Route } from "react-router-dom";
-import { Navigate, useLocation, useNavigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import { getCookie } from "../../utils/utils";
 import {
   ConstructorPage,
@@ -12,12 +12,13 @@ import {
   RegisterPage,
   ResetPage,
   ProfilePage,
-  IngridientPage,
+  FullViewPage,
   OrdersHistoryPage,
   ExitPage,
   ModalViewPage,
   FailPage,
   FeedPage,
+  OrderPage,
 } from "../../pages";
 import {
   baseUrl,
@@ -31,7 +32,9 @@ import {
   exitUrl,
   feedUrl,
 } from "../../utils/data.js";
-import { getUserInfo, refreshToken } from "../../services/actions/user";
+import { getUserInfo } from "../../services/actions/user";
+import { WS_CONNECTION_START } from "../../services/actions/feed.js";
+import { WS_USERFEED_CONNECTION_START } from "../../services/actions/userFeed.js";
 
 function App() {
   const { user, passSuccess, authSuccess } = useSelector((state) => state.user);
@@ -48,10 +51,24 @@ function App() {
       }
     }
   };
+
   useEffect(() => dispatch(getIngredients()), []);
   useEffect(() => {
     init();
   }, []);
+
+  useEffect(() => {
+    dispatch({ type: WS_CONNECTION_START });
+  }, []);
+
+  useEffect(() => {
+    if (getCookie("token")) {
+      dispatch({
+        type: WS_USERFEED_CONNECTION_START,
+        payload: getCookie("token").split("Bearer ")[1],
+      });
+    }
+  }, [authSuccess]);
 
   return (
     <>
@@ -85,20 +102,33 @@ function App() {
           element={<ProtectedRouteElement element={<ProfilePage />} />}
         />
         <Route path={feedUrl} element={<FeedPage />}>
-          <Route path={feedUrl + "/:id"} element={<ModalViewPage />} />
+          {!!background && (
+            <Route path={feedUrl + "/:id"} element={<ModalViewPage />} />
+          )}
         </Route>
         <Route
           path={orderHistoryUrl}
           element={<ProtectedRouteElement element={<OrdersHistoryPage />} />}
         >
-          <Route path={orderHistoryUrl + "/:id"} element={<ModalViewPage />} />
+          {!!background && (
+            <Route
+              path={orderHistoryUrl + "/:id"}
+              element={<ProtectedRouteElement element={<ModalViewPage />} />}
+            />
+          )}
         </Route>
         <Route
           path={exitUrl}
           element={<ProtectedRouteElement element={<ExitPage />} />}
         />
         {!background && (
-          <Route path={ingredientUrl + "/:id"} element={<IngridientPage />} />
+          <Route path={ingredientUrl + "/:id"} element={<FullViewPage />} />
+        )}
+        {!background && (
+          <Route path={feedUrl + "/:id"} element={<FullViewPage />} />
+        )}
+        {!background && (
+          <Route path={orderHistoryUrl + "/:id"} element={<FullViewPage />} />
         )}
         <Route path="*" element={<FailPage />} />
       </Routes>

@@ -9,8 +9,6 @@ import {
 const initialState = {
   wsConnected: false,
   orders: [],
-  total: 0,
-  totalToday: 0,
 };
 
 export const wsUserFeedReducer = (state = initialState, action) => {
@@ -38,8 +36,6 @@ export const wsUserFeedReducer = (state = initialState, action) => {
       return {
         ...state,
         orders: [...action.payload.orders],
-        total: action.payload.total,
-        totalToday: action.payload.totalToday,
       };
     }
     default: {
