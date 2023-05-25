@@ -1,12 +1,13 @@
 import styles from "./ingridient-details.module.css";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Preloader } from "../preloader/preloader";
 
 function IngridientDetails() {
   const { id } = useParams();
   const { items } = useSelector((state) => state.burger);
+  const location = useLocation();
 
   const ingr = useMemo(
     () => items.find((item) => item._id === id),
@@ -35,7 +36,11 @@ function IngridientDetails() {
     <>
       {ingr ? (
         <>
-          <h2 className={`${styles.title} text text_type_main-large`}>
+          <h2
+            className={`${
+              location.state && styles.titleModal
+            } text text_type_main-large`}
+          >
             Детали ингридиента
           </h2>
           <img src={ingr.image_large} alt={ingr.name} />
