@@ -35,7 +35,7 @@ export const wsUserFeedReducer = (state = initialState, action) => {
     case WS_USERFEED_GET_ORDERS: {
       return {
         ...state,
-        orders: [...action.payload.orders],
+        orders: action.payload.orders.reverse(),
       };
     }
     default: {
