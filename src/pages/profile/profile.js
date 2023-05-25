@@ -1,5 +1,4 @@
-import AppHeader from "../components/app-header/app-header";
-import { ProfileNavigation } from "../components/profile-navigation/profile-navigation";
+import { ProfileNavigation } from "../../components/profile-navigation/profile-navigation";
 import {
   Input,
   EmailInput,
@@ -7,7 +6,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
-import { updateUser } from "../services/actions/user";
+import { updateUser } from "../../services/actions/user";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -34,7 +33,6 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <AppHeader />
       <main className={styles.main}>
         <ProfileNavigation />
         <form>

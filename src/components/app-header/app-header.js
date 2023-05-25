@@ -19,6 +19,7 @@ export default function AppHeader() {
       <nav className={styles.menu}>
         <NavLink
           to={baseUrl}
+          state={{ from: location }}
           className={`${styles.link} pl-5 pr-5 pb-4 pt-4 mr-2`}
         >
           <BurgerIcon type={location === baseUrl ? "primary" : "secondary"} />
@@ -32,7 +33,11 @@ export default function AppHeader() {
             Конструктор
           </p>
         </NavLink>
-        <NavLink to={feedUrl} className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}>
+        <NavLink
+          to={{ pathname: feedUrl }}
+          state={{ from: location }}
+          className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}
+        >
           <ListIcon type={location === feedUrl ? "primary" : "secondary"} />
           <p
             className={
@@ -44,7 +49,11 @@ export default function AppHeader() {
             Лента заказов
           </p>
         </NavLink>
-        <Link to={profileUrl} className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}>
+        <NavLink
+          to={profileUrl}
+          state={{ from: location }}
+          className={`${styles.link} pl-5 pr-5 pb-4 pt-4`}
+        >
           <ProfileIcon
             type={location.startsWith(profileUrl) ? "primary" : "secondary"}
           />
@@ -57,7 +66,7 @@ export default function AppHeader() {
           >
             Личный кабинет
           </p>
-        </Link>
+        </NavLink>
       </nav>
     </header>
   );

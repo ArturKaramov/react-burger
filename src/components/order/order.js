@@ -22,7 +22,7 @@ export const Order = ({ order }) => {
   const onClick = () => {
     navigate(`${order._id}`, {
       replace: true,
-      state: { background: location.pathname },
+      state: { from: location.pathname },
     });
   };
 
@@ -42,7 +42,7 @@ export const Order = ({ order }) => {
       <h2 className={`mt-6 text text_type_main-medium ${styles.name}`}>
         {order.name}
       </h2>
-      {location.pathname === orderHistoryUrl && (
+      {location.pathname.startsWith(orderHistoryUrl) && (
         <p
           className={`${styles.status} text text_type_main-default mt-2`}
           style={{ color: order.status === "done" && "#00cccc" }}
@@ -77,7 +77,7 @@ export const Order = ({ order }) => {
             </li>
           ))}
       </ul>
-      <span className={`text text_type_digits-default ${styles.price}`}>
+      <span className={`text text_type_digits-default mt-6 ${styles.price}`}>
         {totalPrice}
         <CurrencyIcon type="primary" />
       </span>

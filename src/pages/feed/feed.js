@@ -1,17 +1,20 @@
 import styles from "./feed.module.css";
 import { useEffect, useMemo } from "react";
-import AppHeader from "../components/app-header/app-header";
 import {
   WS_CONNECTION_CLOSE,
   WS_CONNECTION_START,
-} from "../services/actions/feed";
+} from "../../services/actions/feed";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router";
-import { OrderFeed } from "../components/order-feed/order-feed";
+import { OrderFeed } from "../../components/order-feed/order-feed";
 
 export const FeedPage = () => {
   const dispatch = useDispatch();
   const { orders, total, totalToday } = useSelector((state) => state.feed);
+
+  useEffect(() => {
+    dispatch({ type: WS_CONNECTION_START });
+  }, []);
 
   const doneList = useMemo(
     () => orders.filter((order) => order.status === "done"),
@@ -19,13 +22,15 @@ export const FeedPage = () => {
   );
 
   const processList = useMemo(
-    () => orders.filter((order) => order.status === "pending"),
+    () =>
+      orders.filter(
+        (order) => order.status === "pending" || order.status === "created"
+      ),
     [orders]
   );
 
   return (
     <>
-      <AppHeader />
       <main className={styles.main}>
         <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5`}>
           Лента заказов

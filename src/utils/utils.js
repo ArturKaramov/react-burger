@@ -54,9 +54,9 @@ export function getDate(date) {
   if (days <= 1) {
     daysAgo = correctWord[days];
   } else if (days > 1 && days < 6) {
-    daysAgo = days + correctWord[2];
+    daysAgo = days + " " + correctWord[2];
   } else {
-    daysAgo = days + correctWord[5];
+    daysAgo = days + " " + correctWord[5];
   }
 
   return `${daysAgo}, ${orderTime.toLocaleString("ru", {

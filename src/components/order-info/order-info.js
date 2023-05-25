@@ -22,18 +22,27 @@ export const OrderInfo = () => {
     }
   });
 
-  const orders = location.pathname.startsWith(feedUrl) ? allOrders : userOrders;
+  const orders = useMemo(
+    () => allOrders.concat(userOrders),
+    [allOrders, userOrders]
+  );
 
-  const order = orders.find((item) => item._id === id);
+  const order = useMemo(
+    () => orders.find((item) => item._id === id),
+    [orders, id]
+  );
 
-  const totalPrice =
-    !!order &&
-    order.ingredients
-      .map((ingr) => items.find((item) => item._id === ingr).price)
-      .reduce((ingr, prevIngr) => ingr + prevIngr);
+  const totalPrice = useMemo(
+    () =>
+      !!order &&
+      order.ingredients
+        .map((ingr) => items.find((item) => item._id === ingr).price)
+        .reduce((ingr, prevIngr) => ingr + prevIngr),
+    [order]
+  );
 
   const ingredientsData = useMemo(() => {
-    if (!!order) {
+    if (order) {
       const uniqArr = {};
       for (let i = 0; i < order.ingredients.length; i++) {
         if (!uniqArr[order.ingredients[i]]) {
