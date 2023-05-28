@@ -48,14 +48,19 @@ export function getDate(date) {
   };
   let orderTime = new Date(date);
   let now = new Date();
-  let days = now.getDay() - orderTime.getDay();
+  let days =
+    now.getMonth() !== orderTime.getMonth()
+      ? Math.floor(
+          (now.getTime() - orderTime.getTime()) / (1000 * 60 * 60 * 24)
+        )
+      : now.getDate() - orderTime.getDate();
   let daysAgo;
 
   if (days <= 1) {
     daysAgo = correctWord[days];
-  } else if (days > 1 && days < 6) {
+  } else if (days > 1 && days < 5) {
     daysAgo = days + " " + correctWord[2];
-  } else {
+  } else if (days >= 5) {
     daysAgo = days + " " + correctWord[5];
   }
 

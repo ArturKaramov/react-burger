@@ -1,7 +1,7 @@
 import styles from "./feed.module.css";
 import { useEffect, useMemo } from "react";
 import {
-  WS_CONNECTION_CLOSE,
+  WS_CLOSE_CONNECTION,
   WS_CONNECTION_START,
 } from "../../services/actions/feed";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,9 @@ export const FeedPage = () => {
 
   useEffect(() => {
     dispatch({ type: WS_CONNECTION_START });
+    return () => {
+      dispatch({ type: WS_CLOSE_CONNECTION });
+    };
   }, []);
 
   const doneList = useMemo(

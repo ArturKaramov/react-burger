@@ -5,18 +5,22 @@ import { Outlet } from "react-router";
 import { useEffect } from "react";
 import { getCookie } from "../../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { WS_USERFEED_CONNECTION_START } from "../../services/actions/userFeed";
+import {
+  WS_USERFEED_CLOSE_CONNECTION,
+  WS_USERFEED_CONNECTION_START,
+} from "../../services/actions/userFeed";
 
 export const OrdersHistoryPage = () => {
   const dispatch = useDispatch();
   const { authSuccess } = useSelector((state) => state.user);
   useEffect(() => {
-    if (getCookie("token")) {
-      dispatch({
-        type: WS_USERFEED_CONNECTION_START,
-        payload: getCookie("token").split("Bearer ")[1],
-      });
-    }
+    dispatch({
+      type: WS_USERFEED_CONNECTION_START,
+      payload: getCookie("token").split("Bearer ")[1],
+    });
+    return () => {
+      dispatch({ type: WS_USERFEED_CLOSE_CONNECTION });
+    };
   }, [authSuccess]);
 
   return (

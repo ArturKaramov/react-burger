@@ -5,14 +5,14 @@ import thunkMiddleware from "redux-thunk";
 import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
-  WS_CONNECTION_CLOSE,
+  WS_CLOSE_CONNECTION,
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_CLOSED,
   WS_GET_ORDERS,
 } from "./actions/feed";
 import {
   WS_USERFEED_CONNECTION_ERROR,
-  WS_USERFEED_CONNECTION_CLOSE,
+  WS_USERFEED_CLOSE_CONNECTION,
   WS_USERFEED_CONNECTION_CLOSED,
   WS_USERFEED_CONNECTION_START,
   WS_USERFEED_CONNECTION_SUCCESS,
@@ -24,7 +24,7 @@ const wsUrl = "wss://norma.nomoreparties.space/orders/all";
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
-  wsClose: WS_CONNECTION_CLOSE,
+  wsClose: WS_CLOSE_CONNECTION,
   onOpen: WS_CONNECTION_SUCCESS,
   onClose: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_ERROR,
@@ -35,7 +35,7 @@ const wsUrlUser = "wss://norma.nomoreparties.space/orders";
 
 const wsActionsUser = {
   wsInit: WS_USERFEED_CONNECTION_START,
-  wsClose: WS_USERFEED_CONNECTION_CLOSE,
+  wsClose: WS_USERFEED_CLOSE_CONNECTION,
   onOpen: WS_USERFEED_CONNECTION_SUCCESS,
   onClose: WS_USERFEED_CONNECTION_CLOSED,
   onError: WS_USERFEED_CONNECTION_ERROR,
