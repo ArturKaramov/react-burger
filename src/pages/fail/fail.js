@@ -1,6 +1,6 @@
 import styles from "./fail.module.css";
 import { Link } from "react-router-dom";
-import { baseUrl } from "../utils/data";
+import { baseUrl } from "../../utils/data";
 
 export const FailPage = () => {
   return (

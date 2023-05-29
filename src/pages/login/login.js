@@ -1,12 +1,10 @@
 import styles from "./login.module.css";
-import AppHeader from "../components/app-header/app-header";
-import { Form } from "../components/form/form";
-import { loginUser } from "../services/actions/user";
+import { Form } from "../../components/form/form";
+import { loginUser } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router";
-import { useEffect } from "react";
-import { Preloader } from "../components/preloader/preloader";
-import { forgotUrl, registerUrl } from "../utils/data";
+import { useNavigate } from "react-router";
+import { Preloader } from "../../components/preloader/preloader";
+import { forgotUrl, registerUrl } from "../../utils/data";
 
 export const LoginPage = () => {
   const pageData = {
@@ -44,7 +42,6 @@ export const LoginPage = () => {
         <Preloader />
       ) : (
         <>
-          <AppHeader />
           <main className={styles.main}>
             <Form {...pageData} buttonClick={onClick} />
           </main>

@@ -1,11 +1,10 @@
 import styles from "./register.module.css";
-import AppHeader from "../components/app-header/app-header";
-import { Form } from "../components/form/form";
+import { Form } from "../../components/form/form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Navigate } from "react-router-dom";
-import { registerUser } from "../services/actions/user";
-import { Preloader } from "../components/preloader/preloader";
-import { loginUrl, profileUrl } from "../utils/data";
+import { registerUser } from "../../services/actions/user";
+import { Preloader } from "../../components/preloader/preloader";
+import { loginUrl, profileUrl } from "../../utils/data";
 
 export const RegisterPage = () => {
   const pageData = {
@@ -42,7 +41,6 @@ export const RegisterPage = () => {
         <Navigate to={profileUrl} />
       ) : (
         <>
-          <AppHeader />
           <main className={styles.main}>
             <Form {...pageData} buttonClick={onClick} />
           </main>

@@ -19,8 +19,9 @@
 .preloader {
   width: 100vw;
   height: 100vh;
-  position: absolute;
-  background-color: rgba(0, 0, 0, .6);
+  position: fixed;
+  background-color: #1c1c21;
+  opacity: .6;
   top: 0;
   left: 0;
   display: flex;
@@ -31,6 +32,5 @@
 
 .burger {
   width: 150px;
-  
   animation: preloader 4s linear infinite;
 }

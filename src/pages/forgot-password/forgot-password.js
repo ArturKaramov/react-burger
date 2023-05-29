@@ -1,13 +1,10 @@
 import styles from "./forgot-password.module.css";
-import AppHeader from "../components/app-header/app-header";
-import { Form } from "../components/form/form";
-import { api } from "../utils/api";
+import { Form } from "../../components/form/form";
 import { useNavigate, Navigate } from "react-router-dom";
-import { resetPassword } from "../services/actions/user";
+import { resetPassword } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
-import { Preloader } from "../components/preloader/preloader";
-import { useEffect } from "react";
-import { loginUrl, resetUrl } from "../utils/data";
+import { Preloader } from "../../components/preloader/preloader";
+import { loginUrl, resetUrl } from "../../utils/data";
 
 export const ForgotPage = () => {
   const pageData = {
@@ -40,7 +37,6 @@ export const ForgotPage = () => {
         <Navigate to={resetUrl} />
       ) : (
         <>
-          <AppHeader />
           <main className={styles.main}>
             <Form {...pageData} buttonClick={onClick} />
           </main>

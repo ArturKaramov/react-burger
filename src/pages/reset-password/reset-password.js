@@ -1,13 +1,10 @@
-import styles from "./forgot-password.module.css";
-import AppHeader from "../components/app-header/app-header";
-import { Form } from "../components/form/form";
-import { api } from "../utils/api";
+import styles from "./reset-password.module.css";
+import { Form } from "../../components/form/form";
 import { useDispatch, useSelector } from "react-redux";
-import { createNewPassword } from "../services/actions/user";
+import { createNewPassword } from "../../services/actions/user";
 import { useNavigate, Navigate } from "react-router";
-import { useEffect } from "react";
-import { Preloader } from "../components/preloader/preloader";
-import { loginUrl } from "../utils/data";
+import { Preloader } from "../../components/preloader/preloader";
+import { forgotUrl, loginUrl } from "../../utils/data";
 
 export const ResetPage = () => {
   const pageData = {
@@ -41,17 +38,20 @@ export const ResetPage = () => {
 
   return (
     <>
-      {newPassRequest ? (
-        <Preloader />
-      ) : newPassSuccess ? (
-        <Navigate to={loginUrl} />
+      {passSuccess ? (
+        newPassRequest ? (
+          <Preloader />
+        ) : newPassSuccess ? (
+          <Navigate to={loginUrl} />
+        ) : (
+          <>
+            <main className={styles.main}>
+              <Form {...pageData} buttonClick={onClick} />
+            </main>
+          </>
+        )
       ) : (
-        <>
-          <AppHeader />
-          <main className={styles.main}>
-            <Form {...pageData} buttonClick={onClick} />
-          </main>
-        </>
+        <Navigate to={forgotUrl} />
       )}
     </>
   );

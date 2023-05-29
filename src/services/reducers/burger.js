@@ -20,7 +20,6 @@ const initialState = {
   orderFailed: false,
   items: [],
   constructor: [],
-  details: {},
   order: 0,
 };
 
@@ -52,18 +51,6 @@ export const burgerReducer = (state = initialState, action) => {
         ...state,
         order: initialState.order,
         constructor: initialState.constructor,
-      };
-    }
-    case SHOW_DETAILS: {
-      return {
-        ...state,
-        details: action.item,
-      };
-    }
-    case CLEAR_DETAILS: {
-      return {
-        ...state,
-        details: initialState.details,
       };
     }
     case SET_ORDER_REQUEST: {

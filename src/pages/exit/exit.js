@@ -1,11 +1,10 @@
 import styles from "./exit.module.css";
 import { useNavigate } from "react-router-dom";
-import AppHeader from "../components/app-header/app-header";
-import { ProfileNavigation } from "../components/profile-navigation/profile-navigation";
+import { ProfileNavigation } from "../../components/profile-navigation/profile-navigation";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { logoutUser } from "../services/actions/user";
+import { logoutUser } from "../../services/actions/user";
 import { useDispatch } from "react-redux";
-import { baseUrl } from "../utils/data";
+import { baseUrl } from "../../utils/data";
 
 export const ExitPage = () => {
   const dispatch = useDispatch();
@@ -18,7 +17,6 @@ export const ExitPage = () => {
   return (
     <>
       <>
-        <AppHeader />
         <main className={styles.main}>
           <ProfileNavigation />
           <div className={`ml-30 ${styles.confirm}`}>

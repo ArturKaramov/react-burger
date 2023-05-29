@@ -15,9 +15,9 @@ const IngridientPanel = React.forwardRef((props, ref) => {
   const navigate = useNavigate();
   const location = useLocation();
   const onClickIngr = (id) => {
-    navigate(ingredientUrl + "/" + id, {
+    navigate(`${ingredientUrl}/${id}`, {
       replace: true,
-      state: { background: location.pathname },
+      state: { from: location.pathname },
     });
   };
   return (
