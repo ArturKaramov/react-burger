@@ -23,9 +23,19 @@
   color: #f2f2f3;
 }
 
+.link:hover {
+  border-radius: 50px;
+  outline: 2px solid #4C4CFF;
+  transform: scale(0.95);
+}
+
 .logoLink {
   margin: 0 auto;
   cursor: pointer;
   grid-area: header;
   z-index: 0;
+}
+
+.logoLink:hover {
+  transform: scale(1.05);
 }
