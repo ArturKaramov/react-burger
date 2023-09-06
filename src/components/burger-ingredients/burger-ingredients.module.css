@@ -1,0 +1,33 @@
+.burgerIngredients {
+  max-width: 600px;
+}
+
+.tabPanel {
+  display: flex;
+}
+
+.burgerIngredientsTypes {
+  overflow-y: auto;
+  max-height: calc(100vh - 88px - 156px);
+  box-sizing: border-box;
+}
+
+.burgerIngredientsTypes::-webkit-scrollbar {
+  width: 8px;
+  background-color: #2f2f37;
+}
+
+.burgerIngredientsTypes::-webkit-scrollbar-thumb {
+  width: 8px;
+  background-color: #8585ad;
+}
+
+.burgerIngredientsTypes::-moz-scrollbar {
+  width: 8px;
+  background-color: #2f2f37;
+}
+
+.burgerIngredientsTypes::-moz-scrollbar-thumb {
+  width: 8px;
+  background-color: #8585ad;
+}
