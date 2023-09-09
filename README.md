@@ -13,6 +13,8 @@
 
 ### Запуск проекта:
 
+Клонирование репозитория
+
 ```
 git clone https://github.com/ArturKaramov/react-burger.git
 
