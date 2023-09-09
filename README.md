@@ -1,3 +1,5 @@
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white) ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white) ![CSS](https://img.shields.io/badge/css-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+
 <h1 align="center">
     Проектная работа. "Stellar burgers"
 </h1>
@@ -9,24 +11,30 @@
 Сайт космической бургерной, с возможностью авторизации и оформлением заказа.
 Учебный проект сайта для изучения библиотеки "React".
 
-В директории проекта Вы можете запустить:
+### Запуск проекта:
 
-### `npm start`
+```
+git clone https://github.com/ArturKaramov/react-burger.git
 
-Команда запускает приложение в режиме разработки и открывает [http://localhost:3000](http://localhost:3000) для просмотра в браузере.
+```
 
-### `npm test`
+Установка зависимостей
 
-Команда запускает тестирование.
+```
+npm i
+```
 
-### `npm run build`
+Запуск проекта
 
-Собирает приложение для продакшена в папке `build`.
+```
+npm start
+```
 
-### `npm run deploy`
+## Технологии
 
-Команда загружает проект на Github Pages.
-
-## 📃 Стек
-
-- React, Redux, TypeScript.
+- React
+- React Router 6
+- TypeScript
+- Redux
+- WebSocket
+- CSS
