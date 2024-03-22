@@ -1,50 +1,42 @@
-import React from "react";
+import React from 'react';
 import {
   ConstructorElement,
   Button,
   CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./burger-constructor.module.css";
-import { BUN, LOGIN_URL } from "../../utils/data";
-import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
-import BurgerElement from "../burger-element/burger-element";
-import { Preloader } from "../preloader/preloader";
-import { useSelector, useDispatch } from "../../services/hooks";
-import {
-  addIngrAction,
-  clearOrderAction,
-  setOrder,
-} from "../../services/actions/burger";
-import { useDrop } from "react-dnd/dist/hooks/useDrop";
-import { v4 as uuidv4 } from "uuid";
-import { useNavigate } from "react-router";
-import { IIngredient } from "../../services/types/data";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import styles from './burger-constructor.module.css';
+import { INGRS, LOGIN_URL } from '../../utils/data';
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
+import BurgerElement from '../burger-element/burger-element';
+import { Preloader } from '../preloader/preloader';
+import { useSelector, useDispatch } from '../../services/hooks';
+import { addIngrAction, clearOrderAction, setOrder } from '../../services/actions/burger';
+import { useDrop } from 'react-dnd/dist/hooks/useDrop';
+import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router';
+import { IIngredient } from '../../services/types/data';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orderRequest, orderFailed } = useSelector((state) => state.burger);
-  const auth: boolean = useSelector(
-    (state) => !state.user.authFailed && !!state.user.user.email
-  );
+  const auth: boolean = useSelector((state) => !state.user.authFailed && !!state.user.user.email);
 
   const bun: IIngredient = useSelector((state) => state.burger.constructor[0]);
 
   const products: Array<IIngredient> = useSelector((state) =>
-    state.burger.constructor.filter((item) => item.type !== BUN)
+    state.burger.constructor.filter((item) => item.type !== INGRS.BUN),
   );
 
-  const isOrderEmpty: boolean = useSelector(
-    (state) => !Boolean(state.burger.constructor.length)
-  );
+  const isOrderEmpty: boolean = useSelector((state) => !Boolean(state.burger.constructor.length));
 
   const { order } = useSelector((state) => state.burger);
 
   const [{ isHover, isBun }, dropRef] = useDrop({
-    accept: "ingredient",
+    accept: 'ingredient',
     drop(item: IIngredient) {
-      if (isOrderEmpty && item.type !== BUN) {
+      if (isOrderEmpty && item.type !== INGRS.BUN) {
         return;
       } else {
         const key = uuidv4();
@@ -53,11 +45,11 @@ function BurgerConstructor() {
     },
     collect: (monitor) => ({
       isHover: monitor.isOver(),
-      isBun: monitor.isOver() && monitor.getItem().type === BUN,
+      isBun: monitor.isOver() && monitor.getItem().type === INGRS.BUN,
     }),
   });
 
-  const outlineColor = isHover ? (isBun ? "lightgreen" : "red") : "#8585ad";
+  const outlineColor = isHover ? (isBun ? 'lightgreen' : 'red') : '#8585ad';
 
   const totalPrice = React.useMemo(
     () =>
@@ -66,14 +58,12 @@ function BurgerConstructor() {
         : [bun, ...products, bun]
             .map((ingr) => (ingr ? ingr.price : 0))
             .reduce((prevIngr, ingr) => ingr + prevIngr),
-    [isOrderEmpty, products, bun]
+    [isOrderEmpty, products, bun],
   );
 
   const onClick = () => {
     auth
-      ? dispatch(
-          setOrder([bun._id, ...products.map((item) => item._id), bun._id])
-        )
+      ? dispatch(setOrder([bun._id, ...products.map((item) => item._id), bun._id]))
       : navigate(LOGIN_URL);
   };
 
@@ -82,13 +72,9 @@ function BurgerConstructor() {
       {isOrderEmpty ? (
         <section className={` ${styles.empty}`} style={{ outlineColor }}>
           {isHover && !isBun ? (
-            <span className="text text_type_main-medium">
-              Сперва, выберите булку
-            </span>
+            <span className="text text_type_main-medium">Сперва, выберите булку</span>
           ) : (
-            <span className="text text_type_main-medium">
-              Соберите бургер здесь
-            </span>
+            <span className="text text_type_main-medium">Соберите бургер здесь</span>
           )}
         </section>
       ) : (
@@ -137,12 +123,8 @@ function BurgerConstructor() {
         <Preloader />
       ) : orderFailed ? (
         <div className={styles.error}>
-          <span className="text text_type_main-medium">
-            Кажется, произошла ошибка. :&lang;
-          </span>
-          <span className="text text_type_main-medium">
-            Пожалуйста, повторите заказ
-          </span>
+          <span className="text text_type_main-medium">Кажется, произошла ошибка. :&lang;</span>
+          <span className="text text_type_main-medium">Пожалуйста, повторите заказ</span>
         </div>
       ) : (
         Boolean(order) && (

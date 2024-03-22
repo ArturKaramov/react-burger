@@ -1,29 +1,29 @@
-import styles from "./login.module.css";
-import { Form } from "../../components/form/form";
-import { loginUser } from "../../services/actions/user";
-import { useDispatch, useSelector } from "../../services/hooks";
-import { useNavigate } from "react-router";
-import { Preloader } from "../../components/preloader/preloader";
-import { FORGOT_URL, REGISTER_URL } from "../../utils/data";
-import { TInputValue } from "../../services/types/data";
+import styles from './login.module.css';
+import { Form } from '../../components/form/form';
+import { loginUser } from '../../services/actions/user';
+import { useDispatch, useSelector } from '../../services/hooks';
+import { useNavigate } from 'react-router';
+import { Preloader } from '../../components/preloader/preloader';
+import { FORGOT_URL, REGISTER_URL } from '../../utils/data';
+import { TInputValue } from '../../services/types/data';
 
 export const LoginPage = () => {
   const pageData = {
-    title: "Вход",
+    title: 'Вход',
     inputs: [
-      { name: "email", placeholder: "Email" },
-      { name: "password", placeholder: "Пароль" },
+      { name: 'email', placeholder: 'Email' },
+      { name: 'password', placeholder: 'Пароль' },
     ],
-    button: "Войти",
+    button: 'Войти',
     links: [
       {
-        question: "Вы — новый пользователь?",
-        answer: "Зарегистрироваться",
+        question: 'Вы — новый пользователь?',
+        answer: 'Зарегистрироваться',
         link: REGISTER_URL,
       },
       {
-        question: "Забыли пароль?",
-        answer: "Восстановить пароль",
+        question: 'Забыли пароль?',
+        answer: 'Восстановить пароль',
         link: FORGOT_URL,
       },
     ],
@@ -42,11 +42,9 @@ export const LoginPage = () => {
       {authRequest ? (
         <Preloader />
       ) : (
-        <>
-          <main className={styles.main}>
-            <Form {...pageData} buttonClick={onClick} />
-          </main>
-        </>
+        <main className={styles.main}>
+          <Form {...pageData} buttonClick={onClick} />
+        </main>
       )}
     </>
   );

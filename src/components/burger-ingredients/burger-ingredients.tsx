@@ -1,10 +1,10 @@
-import React, { FC } from "react";
-import styles from "./burger-ingredients.module.css";
-import IngredientPanel from "../ingredient-panel/ingredient-panel";
-import { BUN, SAUCE, MAIN } from "../../utils/data";
-import { useSelector } from "../../services/hooks";
-import { useRef } from "react";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { FC } from 'react';
+import styles from './burger-ingredients.module.css';
+import IngredientPanel from '../ingredient-panel/ingredient-panel';
+import { INGRS } from '../../utils/data';
+import { useSelector } from '../../services/hooks';
+import { useRef } from 'react';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const BurgerIngredients: FC = () => {
   const ingridientList = useSelector((state) => state.burger.items);
@@ -15,18 +15,18 @@ const BurgerIngredients: FC = () => {
 
   const ingrTypes = [
     {
-      name: "Булки",
-      type: BUN,
+      name: 'Булки',
+      type: INGRS.BUN,
       ref: bunRef,
     },
     {
-      name: "Соусы",
-      type: SAUCE,
+      name: 'Соусы',
+      type: INGRS.SAUCE,
       ref: sauceRef,
     },
     {
-      name: "Начинки",
-      type: MAIN,
+      name: 'Начинки',
+      type: INGRS.MAIN,
       ref: mainRef,
     },
   ];
@@ -36,10 +36,7 @@ const BurgerIngredients: FC = () => {
     const arr: number[] = [];
     ingrTypes.forEach((item, i) => {
       if (item.ref && item.ref.current && parentRef && parentRef.current)
-        arr[i] = Math.abs(
-          item.ref.current.getBoundingClientRect().y -
-            parentRef.current.offsetTop
-        );
+        arr[i] = Math.abs(item.ref.current.getBoundingClientRect().y - parentRef.current.offsetTop);
     });
     setCurrent(ingrTypes[arr.indexOf(Math.min(...arr))].type);
   };
@@ -56,8 +53,8 @@ const BurgerIngredients: FC = () => {
             onClick={() => {
               if (tab.ref && tab.ref.current) {
                 tab.ref.current.scrollIntoView({
-                  block: "start",
-                  behavior: "smooth",
+                  block: 'start',
+                  behavior: 'smooth',
                 });
               }
             }}

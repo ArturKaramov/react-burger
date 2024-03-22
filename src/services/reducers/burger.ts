@@ -1,5 +1,5 @@
-import { BUN } from "../../utils/data";
-import { TBurgerActions } from "../actions/burger";
+import { INGRS } from '../../utils/data';
+import { TBurgerActions } from '../actions/burger';
 import {
   GET_ITEMS_REQUEST,
   GET_ITEMS_SUCCESS,
@@ -11,8 +11,8 @@ import {
   ADD_INGR,
   DELETE_INGR,
   MOVE_INGR,
-} from "../constants";
-import { IIngredient } from "../types/data";
+} from '../constants';
+import { IIngredient } from '../types/data';
 
 export type TBurgerState = {
   ingredientsRequest: boolean;
@@ -36,7 +36,7 @@ const initialState: TBurgerState = {
 
 export const burgerReducer = (
   state: TBurgerState = initialState,
-  action: TBurgerActions
+  action: TBurgerActions,
 ): TBurgerState => {
   switch (action.type) {
     case GET_ITEMS_REQUEST: {
@@ -92,7 +92,7 @@ export const burgerReducer = (
       return {
         ...state,
         constructor:
-          action.ingr.type === BUN
+          action.ingr.type === INGRS.BUN
             ? [action.ingr, ...state.constructor.slice(1, -1), action.ingr]
             : [
                 ...state.constructor.slice(0, -1),

@@ -1,4 +1,4 @@
-import { TUserActions } from "../actions/user";
+import { TUserActions } from '../actions/user';
 import {
   AUTH_REQUEST,
   AUTH_SUCCESS,
@@ -10,7 +10,7 @@ import {
   NEW_PASS_REQUEST,
   NEW_PASS_SUCCESS,
   NEW_PASS_FAILED,
-} from "../constants";
+} from '../constants';
 
 export type TUserState = {
   readonly authRequest: boolean;
@@ -27,21 +27,18 @@ export type TUserState = {
 
 const initialState: TUserState = {
   authRequest: false,
-  authFailed: false,
+  authFailed: true,
   passRequest: false,
-  passFailed: false,
+  passFailed: true,
   newPassRequest: false,
-  newPassFailed: false,
+  newPassFailed: true,
   user: {
-    email: "",
-    name: "",
+    email: '',
+    name: '',
   },
 };
 
-export const userReducer = (
-  state = initialState,
-  action: TUserActions
-): TUserState => {
+export const userReducer = (state = initialState, action: TUserActions): TUserState => {
   switch (action.type) {
     case AUTH_REQUEST: {
       return {
