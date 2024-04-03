@@ -5,28 +5,29 @@ import {
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
-import { INGRS, LOGIN_URL } from '../../utils/data';
+import { LOGIN_URL } from '../../utils/data';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import BurgerElement from '../burger-element/burger-element';
 import { Preloader } from '../preloader/preloader';
 import { useSelector, useDispatch } from '../../services/hooks';
-import { addIngrAction, clearOrderAction, setOrder } from '../../services/actions/burger';
+import { setOrder } from '../../services/actions/burger';
 import { useDrop } from 'react-dnd/dist/hooks/useDrop';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router';
-import { IIngredient } from '../../services/types/data';
+import { IIngredient, IngrType } from '../../services/types/data';
+import { addIngr, clearOrder } from '../../services/reducers/burger';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orderRequest, orderFailed } = useSelector((state) => state.burger);
-  const auth: boolean = useSelector((state) => !state.user.authFailed && !!state.user.user.email);
+  const auth: boolean = useSelector((state) => state.user.authSuccess && !!state.user.user.email);
 
   const bun: IIngredient = useSelector((state) => state.burger.constructor[0]);
 
   const products: Array<IIngredient> = useSelector((state) =>
-    state.burger.constructor.filter((item) => item.type !== INGRS.BUN),
+    state.burger.constructor.filter((item) => item.type !== IngrType.BUN),
   );
 
   const isOrderEmpty: boolean = useSelector((state) => !Boolean(state.burger.constructor.length));
@@ -36,16 +37,16 @@ function BurgerConstructor() {
   const [{ isHover, isBun }, dropRef] = useDrop({
     accept: 'ingredient',
     drop(item: IIngredient) {
-      if (isOrderEmpty && item.type !== INGRS.BUN) {
+      if (isOrderEmpty && item.type !== IngrType.BUN) {
         return;
       } else {
         const key = uuidv4();
-        dispatch(addIngrAction({ ...item, key: key }));
+        dispatch(addIngr({ ...item, key: key }));
       }
     },
     collect: (monitor) => ({
       isHover: monitor.isOver(),
-      isBun: monitor.isOver() && monitor.getItem().type === INGRS.BUN,
+      isBun: monitor.isOver() && monitor.getItem().type === IngrType.BUN,
     }),
   });
 
@@ -130,7 +131,7 @@ function BurgerConstructor() {
         Boolean(order) && (
           <Modal
             closeModal={() => {
-              dispatch(clearOrderAction());
+              dispatch(clearOrder());
             }}
           >
             <OrderDetails />

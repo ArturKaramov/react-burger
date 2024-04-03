@@ -1,3 +1,4 @@
+import { IIngredient } from '../services/types/data';
 import { url } from './data';
 import { setCookie, getCookie } from './utils';
 
@@ -92,11 +93,11 @@ class Api {
     });
   }
 
-  logoutUser(obj: { token: string | null }) {
+  logoutUser() {
     return this._request(`${this._url}/auth/logout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(obj),
+      body: JSON.stringify({ token: localStorage.getItem('refresh') }),
     });
   }
 

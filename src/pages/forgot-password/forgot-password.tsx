@@ -5,7 +5,6 @@ import { resetPassword } from '../../services/actions/user';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { Preloader } from '../../components/preloader/preloader';
 import { LOGIN_URL, RESET_URL } from '../../utils/data';
-import { TInputValue } from '../../services/types/data';
 
 export const ForgotPage = () => {
   const pageData = {
@@ -20,18 +19,18 @@ export const ForgotPage = () => {
       },
     ],
   };
-  const { passRequest, passFailed } = useSelector((state) => state.user);
+  const { passRequest, passSuccess } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const onClick = (email: TInputValue) => {
-    dispatch(resetPassword(email));
+  const onClick = (mail: Record<'email', string>) => {
+    dispatch(resetPassword(mail));
   };
 
   return (
     <>
       {passRequest ? (
         <Preloader />
-      ) : !passFailed ? (
+      ) : passSuccess ? (
         <Navigate to={RESET_URL} />
       ) : (
         <>

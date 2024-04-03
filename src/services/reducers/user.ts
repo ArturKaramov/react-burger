@@ -1,115 +1,120 @@
-import { TUserActions } from '../actions/user';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
-  AUTH_REQUEST,
-  AUTH_SUCCESS,
-  AUTH_FAILED,
-  LOGOUT,
-  PASS_REQUEST,
-  PASS_SUCCESS,
-  PASS_FAILED,
-  NEW_PASS_REQUEST,
-  NEW_PASS_SUCCESS,
-  NEW_PASS_FAILED,
-} from '../constants';
+  createNewPassword,
+  getUserInfo,
+  loginUser,
+  logoutUser,
+  registerUser,
+  resetPassword,
+  updateUser,
+} from '../actions/user';
+import { deleteCookie, setCookie } from '../../utils/utils';
+import { TLoginResponse } from '../types/data';
 
 export type TUserState = {
-  readonly authRequest: boolean;
-  readonly authFailed: boolean;
-  readonly passRequest: boolean;
-  readonly passFailed: boolean;
-  readonly newPassRequest: boolean;
-  readonly newPassFailed: boolean;
-  readonly user: {
-    readonly email: string;
-    readonly name: string;
-  };
+  authRequest: boolean;
+  authSuccess: boolean;
+  passRequest: boolean;
+  passSuccess: boolean;
+  newPassRequest: boolean;
+  newPassSuccess: boolean;
+  user: { email: string; name: string };
 };
 
 const initialState: TUserState = {
   authRequest: false,
-  authFailed: true,
+  authSuccess: false,
   passRequest: false,
-  passFailed: true,
+  passSuccess: false,
   newPassRequest: false,
-  newPassFailed: true,
+  newPassSuccess: false,
   user: {
     email: '',
     name: '',
   },
 };
 
-export const userReducer = (state = initialState, action: TUserActions): TUserState => {
-  switch (action.type) {
-    case AUTH_REQUEST: {
-      return {
-        ...state,
-        authRequest: true,
-        authFailed: false,
-      };
-    }
-    case AUTH_FAILED: {
-      return {
-        ...state,
-        authRequest: false,
-        authFailed: true,
-      };
-    }
-    case AUTH_SUCCESS: {
-      return {
-        ...state,
-        authRequest: false,
-        authFailed: false,
-        user: {
-          email: action.data.user.email,
-          name: action.data.user.name,
+export const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(registerUser.pending, (state: TUserState) => {
+        state.authRequest = true;
+        state.authSuccess = false;
+      })
+      .addCase(registerUser.rejected, (state: TUserState) => {
+        state.authRequest = false;
+        state.authSuccess = true;
+      })
+      .addCase(registerUser.fulfilled, (state: TUserState) => {
+        state.authRequest = false;
+        state.authSuccess = false;
+      })
+      .addCase(loginUser.pending, (state: TUserState) => {
+        state.passSuccess = false;
+        state.newPassSuccess = false;
+        state.authRequest = true;
+        state.authSuccess = false;
+      })
+      .addCase(loginUser.rejected, (state: TUserState) => {
+        state.authRequest = false;
+        state.authSuccess = false;
+      })
+      .addCase(loginUser.fulfilled, (state: TUserState, action: PayloadAction<TLoginResponse>) => {
+        state.authRequest = false;
+        state.authSuccess = true;
+        state.user = { ...action.payload.user };
+        setCookie('token', action.payload.accessToken);
+        localStorage.setItem('refresh', action.payload.refreshToken);
+      })
+      .addCase(logoutUser.fulfilled, (state: TUserState) => {
+        deleteCookie('token');
+        localStorage.setItem('refresh', '');
+        return initialState;
+      })
+      .addCase(getUserInfo.fulfilled, (state: TUserState, action: PayloadAction<any>) => {
+        state.authSuccess = true;
+        state.user = action.payload.user;
+      })
+      .addCase(
+        updateUser.fulfilled,
+        (
+          state: TUserState,
+          action: PayloadAction<{ success: boolean; user: { name: string; email: string } }>,
+        ) => {
+          state.user = action.payload.user;
         },
-      };
-    }
-    case PASS_REQUEST: {
-      return {
-        ...state,
-        passRequest: true,
-      };
-    }
-    case PASS_SUCCESS: {
-      return {
-        ...state,
-        passRequest: false,
-        passFailed: false,
-      };
-    }
-    case PASS_FAILED: {
-      return {
-        ...state,
-        passRequest: false,
-        passFailed: true,
-      };
-    }
-    case NEW_PASS_REQUEST: {
-      return {
-        ...state,
-        newPassRequest: true,
-      };
-    }
-    case NEW_PASS_SUCCESS: {
-      return {
-        ...state,
-        newPassRequest: false,
-        newPassFailed: false,
-      };
-    }
-    case NEW_PASS_FAILED: {
-      return {
-        ...state,
-        newPassRequest: false,
-        newPassFailed: true,
-      };
-    }
-    case LOGOUT: {
-      return initialState;
-    }
-    default: {
-      return state;
-    }
-  }
-};
+      )
+      .addCase(resetPassword.pending, (state: TUserState) => {
+        state.passRequest = true;
+        state.passSuccess = false;
+      })
+      .addCase(resetPassword.rejected, (state: TUserState) => {
+        state.passRequest = false;
+        state.passSuccess = false;
+      })
+      .addCase(resetPassword.fulfilled, (state: TUserState) => {
+        state.passRequest = false;
+        state.passSuccess = true;
+      })
+      .addCase(createNewPassword.pending, (state: TUserState) => {
+        state.newPassRequest = true;
+        state.newPassSuccess = false;
+      })
+      .addCase(createNewPassword.rejected, (state: TUserState) => {
+        state.newPassRequest = false;
+        state.passSuccess = false;
+      })
+      .addCase(createNewPassword.fulfilled, (state: TUserState) => {
+        state.passSuccess = false;
+        state.newPassRequest = false;
+        state.newPassSuccess = true;
+      });
+  },
+});
+
+export const {} = userSlice.actions;
+
+export default userSlice.reducer;

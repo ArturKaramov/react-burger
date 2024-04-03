@@ -7,8 +7,8 @@ import { FEED_URL, INGREDIENTS_URL, USER_ORDERS_URL } from '../../utils/data';
 import { OrderInfo } from '../../components/order-info/order-info';
 import { Preloader } from '../../components/preloader/preloader';
 import { getCookie } from '../../utils/utils';
-import { wsUserCloseAction, wsUserStartAction } from '../../services/actions/userFeed';
-import { wsStartAction, wsCloseAction } from '../../services/actions/feed';
+import { wsClose, wsInit } from '../../services/reducers/feed';
+import { wsUserInit, wsUserClose } from '../../services/reducers/userFeed';
 
 export const FullViewPage = () => {
   const location = useLocation();
@@ -20,14 +20,14 @@ export const FullViewPage = () => {
 
   useEffect(() => {
     if (location.pathname.startsWith(FEED_URL)) {
-      dispatch(wsStartAction());
+      dispatch(wsInit());
       return () => {
-        dispatch(wsCloseAction());
+        dispatch(wsClose());
       };
     } else if (location.pathname.startsWith(USER_ORDERS_URL)) {
-      dispatch(wsUserStartAction(getCookie('token').split('Bearer ')[1]));
+      dispatch(wsUserInit(getCookie('token').split('Bearer ')[1]));
       return () => {
-        dispatch(wsUserCloseAction());
+        dispatch(wsUserClose());
       };
     } else {
       return;

@@ -32,7 +32,7 @@ import {
   EXIT_URL,
   FEED_URL,
 } from '../../utils/data';
-import { getUserInfo } from '../../services/actions/user';
+import { getUserInfo, loginUser } from '../../services/actions/user';
 import AppHeader from '../app-header/app-header';
 
 const App: FC = () => {
@@ -41,22 +41,14 @@ const App: FC = () => {
   const location = useLocation();
   const from = location?.state && location?.state.from;
 
-  const init = () => {
-    if (!user.name.length) {
-      if (getCookie('token')) {
-        dispatch(getUserInfo());
-      }
-    }
-  };
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredients());
-  }, [dispatch]);
-
-  useEffect(() => {
-    init();
+    //setTimeout(() => dispatch(loginUser({ email: 'kutak69@mail.ru', password: 'kutak69' })), 1000);
+    if (!user.name.length && getCookie('token')) {
+      dispatch(getUserInfo());
+    }
   }, []);
 
   return (

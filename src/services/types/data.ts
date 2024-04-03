@@ -1,26 +1,29 @@
-import {
-  WS_START_CONNECTION,
-  WS_CLOSE_CONNECTION,
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_SUCCESS,
-  WS_GET_ORDERS,
-  WS_USERFEED_CLOSE_CONNECTION,
-  WS_USERFEED_CONNECTION_CLOSED,
-  WS_USERFEED_CONNECTION_ERROR,
-  WS_USERFEED_CONNECTION_START,
-  WS_USERFEED_CONNECTION_SUCCESS,
-  WS_USERFEED_GET_ORDERS,
-} from "../constants";
+import { ActionCreatorWithPayload, ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
 
 export type TInputValue = {
   [key: string]: string;
 };
 
+export const bun = 'bun';
+export const main = 'main';
+export const sauce = 'sauce';
+
+export enum IngrType {
+  BUN = 'bun',
+  MAIN = 'main',
+  SAUCE = 'sauce',
+}
+
+export const statuses: Record<string, string> = {
+  done: 'Выполнен',
+  pending: 'Готовится',
+  created: 'Создан',
+};
+
 export interface IIngredient {
   readonly _id: string;
   readonly name: string;
-  readonly type: string;
+  readonly type: IngrType;
   readonly proteins: number;
   readonly fat: number;
   readonly carbohydrates: number;
@@ -51,6 +54,20 @@ export interface IOrder {
   readonly updatedAt: string;
 }
 
+export interface IUser {
+  readonly name: string;
+  readonly email: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+}
+
+export type TLoginResponse = {
+  readonly success: boolean;
+  readonly accessToken: string;
+  readonly refreshToken: string;
+  readonly user: { readonly name: string; readonly email: string };
+};
+
 export type TWSResponse = {
   readonly success: boolean;
   readonly orders: ReadonlyArray<IOrder>;
@@ -59,10 +76,16 @@ export type TWSResponse = {
 };
 
 export type TWSActions = {
-  wsInit: typeof WS_START_CONNECTION | typeof WS_USERFEED_CONNECTION_START;
-  wsClose: typeof WS_CLOSE_CONNECTION | typeof WS_USERFEED_CLOSE_CONNECTION;
-  onOpen: typeof WS_CONNECTION_SUCCESS | typeof WS_USERFEED_CONNECTION_SUCCESS;
-  onClose: typeof WS_CONNECTION_CLOSED | typeof WS_USERFEED_CONNECTION_CLOSED;
-  onError: typeof WS_CONNECTION_ERROR | typeof WS_USERFEED_CONNECTION_ERROR;
-  onMessage: typeof WS_GET_ORDERS | typeof WS_USERFEED_GET_ORDERS;
+  wsInit: ActionCreatorWithoutPayload | ActionCreatorWithPayload<string>;
+  wsClose: ActionCreatorWithoutPayload;
+  onOpen: ActionCreatorWithoutPayload;
+  onClose: ActionCreatorWithoutPayload;
+  onError: ActionCreatorWithoutPayload;
+  onMessage: ActionCreatorWithPayload<any>;
+};
+
+export type TOrderResponse = {
+  success: boolean;
+  name: string;
+  order: IOrder & { owner: IUser; price: number };
 };

@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './reset-password.module.css';
 import { Form } from '../../components/form/form';
-import { useSelector } from '../../services/hooks';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { createNewPassword } from '../../services/actions/user';
-import { useNavigate, Navigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Preloader } from '../../components/preloader/preloader';
 import { FORGOT_URL, LOGIN_URL } from '../../utils/data';
-import { TInputValue } from '../../services/types/data';
 
 export const ResetPage = () => {
   const pageData = {
@@ -25,31 +24,30 @@ export const ResetPage = () => {
     ],
   };
 
-  const { passFailed, newPassRequest, newPassFailed } = useSelector((state) => state.user);
+  const { passSuccess, newPassRequest, newPassSuccess } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const onClick = (obj: TInputValue) => {
-    createNewPassword(obj);
-    if (!newPassFailed) {
-      navigate(LOGIN_URL);
+  useEffect(() => {
+    if (!passSuccess && !newPassSuccess) {
+      navigate(FORGOT_URL);
     }
+  }, [passSuccess, newPassSuccess]);
+
+  const onClick = (obj: Record<'password' | 'token', string>) => {
+    dispatch(createNewPassword(obj));
+    navigate(LOGIN_URL);
   };
 
   return (
     <>
-      {!passFailed ? (
-        newPassRequest ? (
-          <Preloader />
-        ) : !newPassFailed ? (
-          <Navigate to={LOGIN_URL} />
-        ) : (
-          <main className={styles.main}>
-            <Form {...pageData} buttonClick={onClick} />
-          </main>
-        )
+      {newPassRequest ? (
+        <Preloader />
       ) : (
-        <Navigate to={FORGOT_URL} />
+        <main className={styles.main}>
+          <Form {...pageData} buttonClick={onClick} />
+        </main>
       )}
     </>
   );

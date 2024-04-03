@@ -1,56 +1,51 @@
-import { applyMiddleware, compose, createStore } from "redux";
-import { rootReducer } from "./reducers";
-import { socketMiddleware } from "./middleware/socket";
+import { rootReducer } from './reducers';
+import { socketMiddleware } from './middleware/socket';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import {
-  WS_CONNECTION_ERROR,
-  WS_START_CONNECTION,
-  WS_CLOSE_CONNECTION,
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_CLOSED,
-  WS_GET_ORDERS,
-  WS_USERFEED_CONNECTION_ERROR,
-  WS_USERFEED_CLOSE_CONNECTION,
-  WS_USERFEED_CONNECTION_CLOSED,
-  WS_USERFEED_CONNECTION_START,
-  WS_USERFEED_CONNECTION_SUCCESS,
-  WS_USERFEED_GET_ORDERS,
-} from "./constants";
-import { TWSActions } from "./types/data";
-import thunk from "redux-thunk";
+  wsClose,
+  wsConnectionClosed,
+  wsConnectionError,
+  wsConnectionSuccess,
+  wsGetOrders,
+  wsInit,
+} from './reducers/feed';
+import {
+  wsUserClose,
+  wsUserFeedConnectionClosed,
+  wsUserFeedConnectionError,
+  wsUserFeedConnectionSuccess,
+  wsUserFeedGetOrders,
+  wsUserInit,
+} from './reducers/userFeed';
+import { TWSActions } from './types/data';
 
-const wsUrl: string = "wss://norma.nomoreparties.space/orders/all";
-const wsUrlUser: string = "wss://norma.nomoreparties.space/orders";
+const wsUrl: string = 'wss://norma.nomoreparties.space/orders/all';
+const wsUrlUser: string = 'wss://norma.nomoreparties.space/orders';
 
 const wsActions: TWSActions = {
-  wsInit: WS_START_CONNECTION,
-  wsClose: WS_CLOSE_CONNECTION,
-  onOpen: WS_CONNECTION_SUCCESS,
-  onClose: WS_CONNECTION_CLOSED,
-  onError: WS_CONNECTION_ERROR,
-  onMessage: WS_GET_ORDERS,
+  wsInit: wsInit,
+  wsClose: wsClose,
+  onOpen: wsConnectionSuccess,
+  onClose: wsConnectionClosed,
+  onError: wsConnectionError,
+  onMessage: wsGetOrders,
 };
 
 const wsActionsUser: TWSActions = {
-  wsInit: WS_USERFEED_CONNECTION_START,
-  wsClose: WS_USERFEED_CLOSE_CONNECTION,
-  onOpen: WS_USERFEED_CONNECTION_SUCCESS,
-  onClose: WS_USERFEED_CONNECTION_CLOSED,
-  onError: WS_USERFEED_CONNECTION_ERROR,
-  onMessage: WS_USERFEED_GET_ORDERS,
+  wsInit: wsUserInit,
+  wsClose: wsUserClose,
+  onOpen: wsUserFeedConnectionSuccess,
+  onClose: wsUserFeedConnectionClosed,
+  onError: wsUserFeedConnectionError,
+  onMessage: wsUserFeedGetOrders,
 };
 
-const composeEnhancers =
-  typeof window === "object" &&
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
-
-const enhancer = composeEnhancers(
-  applyMiddleware(
-    thunk,
-    socketMiddleware(wsUrl, wsActions),
-    socketMiddleware(wsUrlUser, wsActionsUser)
-  )
-);
-
-export const store = createStore(rootReducer, enhancer);
+export const store = configureStore({
+  devTools: process.env.NODE_ENV === 'development',
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      socketMiddleware(wsUrl, wsActions),
+      socketMiddleware(wsUrlUser, wsActionsUser),
+    ),
+});

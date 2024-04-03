@@ -5,19 +5,19 @@ import { Outlet } from 'react-router';
 import { useEffect } from 'react';
 import { getCookie } from '../../utils/utils';
 import { useDispatch, useSelector } from '../../services/hooks';
-import { wsUserCloseAction, wsUserStartAction } from '../../services/actions/userFeed';
+import { wsUserClose, wsUserInit } from '../../services/reducers/userFeed';
 
 export const OrdersHistoryPage = () => {
   const dispatch = useDispatch();
-  const { authFailed } = useSelector((state) => state.user);
+  const { authSuccess } = useSelector((state) => state.user);
   useEffect(() => {
     if (getCookie('token') !== undefined) {
-      dispatch(wsUserStartAction(getCookie('token').split('Bearer ')[1]));
+      dispatch(wsUserInit(getCookie('token').split('Bearer ')[1]));
     }
     return () => {
-      dispatch(wsUserCloseAction());
+      dispatch(wsUserClose());
     };
-  }, [authFailed]);
+  }, [authSuccess]);
 
   return (
     <>

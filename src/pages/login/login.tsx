@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from '../../services/hooks';
 import { useNavigate } from 'react-router';
 import { Preloader } from '../../components/preloader/preloader';
 import { FORGOT_URL, REGISTER_URL } from '../../utils/data';
-import { TInputValue } from '../../services/types/data';
 
 export const LoginPage = () => {
   const pageData = {
@@ -32,7 +31,7 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const { authRequest } = useSelector((state) => state.user);
 
-  const onClick = (obj: TInputValue) => {
+  const onClick = (obj: Record<'email' | 'password', string>) => {
     dispatch(loginUser(obj));
     navigate(-1);
   };

@@ -1,10 +1,16 @@
-import React, { FC } from 'react';
+import { FC, RefObject, useEffect, useState } from 'react';
 import styles from './burger-ingredients.module.css';
 import IngredientPanel from '../ingredient-panel/ingredient-panel';
-import { INGRS } from '../../utils/data';
 import { useSelector } from '../../services/hooks';
 import { useRef } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { IIngredient, IngrType } from '../../services/types/data';
+
+interface IngrInterface {
+  name: string;
+  type: IngrType;
+  ref: RefObject<HTMLHeadingElement>;
+}
 
 const BurgerIngredients: FC = () => {
   const ingridientList = useSelector((state) => state.burger.items);
@@ -13,24 +19,24 @@ const BurgerIngredients: FC = () => {
   const mainRef = useRef<HTMLHeadingElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
 
-  const ingrTypes = [
+  const ingrTypes: IngrInterface[] = [
     {
       name: 'Булки',
-      type: INGRS.BUN,
+      type: IngrType.BUN,
       ref: bunRef,
     },
     {
       name: 'Соусы',
-      type: INGRS.SAUCE,
+      type: IngrType.SAUCE,
       ref: sauceRef,
     },
     {
       name: 'Начинки',
-      type: INGRS.MAIN,
+      type: IngrType.MAIN,
       ref: mainRef,
     },
   ];
-  const [current, setCurrent] = React.useState(ingrTypes[0].type);
+  const [current, setCurrent] = useState(ingrTypes[0].type);
 
   const setCurrentOnScroll = (): void => {
     const arr: number[] = [];
@@ -69,14 +75,15 @@ const BurgerIngredients: FC = () => {
         ref={parentRef}
         className={`${styles.burgerIngredientsTypes} pt-8`}
       >
-        {ingrTypes.map((element) => (
-          <IngredientPanel
-            key={element.type}
-            name={element.name}
-            data={ingridientList.filter((ingr) => ingr.type === element.type)}
-            ref={element.ref}
-          />
-        ))}
+        {ingridientList &&
+          ingrTypes.map((element) => (
+            <IngredientPanel
+              key={element.type}
+              name={element.name}
+              data={ingridientList.filter((item) => item.type === element.type)}
+              ref={element.ref}
+            />
+          ))}
       </div>
     </section>
   );

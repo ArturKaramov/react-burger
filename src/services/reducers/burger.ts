@@ -1,18 +1,6 @@
-import { INGRS } from '../../utils/data';
-import { TBurgerActions } from '../actions/burger';
-import {
-  GET_ITEMS_REQUEST,
-  GET_ITEMS_SUCCESS,
-  GET_ITEMS_FAILED,
-  SET_ORDER_REQUEST,
-  SET_ORDER_FAILED,
-  SET_ORDER_SUCCESS,
-  CLEAR_ORDER,
-  ADD_INGR,
-  DELETE_INGR,
-  MOVE_INGR,
-} from '../constants';
-import { IIngredient } from '../types/data';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { IIngredient, IngrType, TOrderResponse } from '../types/data';
+import { getIngredients, setOrder } from '../actions/burger';
 
 export type TBurgerState = {
   ingredientsRequest: boolean;
@@ -34,90 +22,75 @@ const initialState: TBurgerState = {
   order: 0,
 };
 
-export const burgerReducer = (
-  state: TBurgerState = initialState,
-  action: TBurgerActions,
-): TBurgerState => {
-  switch (action.type) {
-    case GET_ITEMS_REQUEST: {
-      return {
-        ...state,
-        ingredientsRequest: true,
-      };
-    }
-    case GET_ITEMS_FAILED: {
-      return {
-        ...state,
-        ingredientsFailed: true,
-        ingredientsRequest: false,
-      };
-    }
-    case GET_ITEMS_SUCCESS: {
-      return {
-        ...state,
-        ingredientsFailed: false,
-        ingredientsRequest: false,
-        items: action.items,
-      };
-    }
-    case CLEAR_ORDER: {
-      return {
-        ...state,
-        order: initialState.order,
-        constructor: initialState.constructor,
-      };
-    }
-    case SET_ORDER_REQUEST: {
-      return {
-        ...state,
-        orderRequest: true,
-      };
-    }
-    case SET_ORDER_FAILED: {
-      return {
-        ...state,
-        orderRequest: false,
-        orderFailed: true,
-      };
-    }
-    case SET_ORDER_SUCCESS: {
-      return {
-        ...state,
-        orderRequest: false,
-        orderFailed: false,
-        order: action.order,
-      };
-    }
-    case ADD_INGR: {
-      return {
-        ...state,
-        constructor:
-          action.ingr.type === INGRS.BUN
-            ? [action.ingr, ...state.constructor.slice(1, -1), action.ingr]
-            : [
-                ...state.constructor.slice(0, -1),
-                action.ingr,
-                state.constructor[state.constructor.length - 1],
-              ],
-      };
-    }
-    case DELETE_INGR: {
-      return {
-        ...state,
-        constructor: [
-          ...state.constructor.slice(0, action.ingr),
-          ...state.constructor.slice(action.ingr + 1),
-        ],
-      };
-    }
-    case MOVE_INGR: {
-      return {
-        ...state,
-        constructor: action.data,
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+export const burgerSlice = createSlice({
+  name: 'burger',
+  initialState,
+  reducers: {
+    clearOrder: (state: TBurgerState) => {
+      state.order = initialState.order;
+      state.constructor = initialState.constructor;
+    },
+
+    addIngr: (state: TBurgerState, action: PayloadAction<IIngredient>) => {
+      state.constructor =
+        action.payload.type === IngrType.BUN
+          ? [action.payload, ...state.constructor.slice(1, -1), action.payload]
+          : [
+              ...state.constructor.slice(0, -1),
+              action.payload,
+              state.constructor[state.constructor.length - 1],
+            ];
+    },
+    deleteIngr: (state: TBurgerState, action: PayloadAction<number>) => {
+      state.constructor = [
+        ...state.constructor.slice(0, action.payload),
+        ...state.constructor.slice(action.payload + 1),
+      ];
+    },
+    moveIngr: (state: TBurgerState, action: PayloadAction<Array<IIngredient>>) => {
+      state.constructor = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getIngredients.pending, (state: TBurgerState) => {
+        state.ingredientsRequest = true;
+        state.ingredientsFailed = false;
+      })
+      .addCase(getIngredients.rejected, (state: TBurgerState) => {
+        state.ingredientsRequest = false;
+        state.ingredientsFailed = true;
+      })
+      .addCase(
+        getIngredients.fulfilled,
+        (
+          state: TBurgerState,
+          action: PayloadAction<{ success: boolean; data: Array<IIngredient> }>,
+        ) => {
+          state.ingredientsFailed = false;
+          state.ingredientsRequest = false;
+          state.items = action.payload.data;
+        },
+      )
+      .addCase(setOrder.pending, (state: TBurgerState) => {
+        state.orderRequest = true;
+        state.orderFailed = false;
+      })
+      .addCase(setOrder.rejected, (state: TBurgerState) => {
+        state.orderFailed = true;
+        state.orderRequest = false;
+      })
+      .addCase(setOrder.fulfilled, (state: TBurgerState, action: PayloadAction<TOrderResponse>) => {
+        console.log(action.payload);
+        state.orderRequest = false;
+        state.orderFailed = false;
+        state.order = action.payload.order.number;
+      });
+  },
+});
+
+export const { clearOrder, addIngr, deleteIngr, moveIngr } = burgerSlice.actions;
+
+export type TBurgerActions = typeof burgerSlice.actions;
+
+export default burgerSlice.reducer;

@@ -1,18 +1,18 @@
 import styles from './feed.module.css';
 import { useEffect, useMemo } from 'react';
-import { wsCloseAction, wsStartAction } from '../../services/actions/feed';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { Outlet } from 'react-router';
 import { OrderFeed } from '../../components/order-feed/order-feed';
+import { wsClose, wsInit } from '../../services/reducers/feed';
 
 export const FeedPage = () => {
   const dispatch = useDispatch();
   const { orders, total, totalToday } = useSelector((state) => state.feed);
 
   useEffect(() => {
-    dispatch(wsStartAction());
+    dispatch(wsInit());
     return () => {
-      dispatch(wsCloseAction());
+      dispatch(wsClose());
     };
   }, []);
 

@@ -1,16 +1,5 @@
-export enum INGRS {
-  BUN = 'bun',
-  MAIN = 'main',
-  SAUCE = 'sauce',
-}
 export const url: string = 'https://norma.nomoreparties.space/api';
 export const maxIngr: number = 6; //максимальное количество показанных в ленте заказов ингридиентов по каждому заказу
-
-export const statuses: Record<string, string> = {
-  done: 'Выполнен',
-  pending: 'Готовится',
-  created: 'Создан',
-};
 
 export const BASE_URL: string = '';
 export const LOGIN_URL: string = BASE_URL + '/login';

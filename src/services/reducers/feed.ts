@@ -1,12 +1,5 @@
-import { TFeedActions } from "../actions/feed";
-import {
-  WS_CONNECTION_ERROR,
-  WS_START_CONNECTION,
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_CLOSED,
-  WS_GET_ORDERS,
-} from "../constants";
-import { IOrder } from "../types/data";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { IOrder } from '../types/data';
 
 export type TFeedState = {
   wsConnected: boolean;
@@ -22,42 +15,39 @@ const initialState: TFeedState = {
   totalToday: 0,
 };
 
-export const wsFeedReducer = (
-  state = initialState,
-  action: TFeedActions
-): TFeedState => {
-  switch (action.type) {
-    case WS_CONNECTION_SUCCESS: {
-      return {
-        ...state,
-        wsConnected: true,
-      };
-    }
-    case WS_CONNECTION_ERROR: {
-      return {
-        ...state,
-        wsConnected: false,
-      };
-    }
-    case WS_CONNECTION_CLOSED: {
-      return {
-        ...state,
-        wsConnected: false,
-        orders: initialState.orders,
-      };
-    }
-    case WS_GET_ORDERS: {
-      return {
-        ...state,
-        orders: action.payload.orders,
-        total: action.payload.total,
-        totalToday: action.payload.totalToday,
-      };
-    }
-    default: {
-      return {
-        ...state,
-      };
-    }
-  }
-};
+const feedSlice = createSlice({
+  name: 'feed',
+  initialState,
+  reducers: {
+    wsInit: () => {},
+    wsClose: () => {},
+    wsConnectionSuccess: (state: TFeedState) => {
+      state.wsConnected = true;
+    },
+    wsConnectionError: (state: TFeedState) => {
+      state.wsConnected = false;
+    },
+    wsConnectionClosed: (state: TFeedState) => {
+      state.wsConnected = false;
+    },
+    wsGetOrders: (state: TFeedState, action: PayloadAction<Omit<TFeedState, 'wsConnected'>>) => {
+      state.orders = action.payload.orders;
+      state.total = action.payload.total;
+      state.totalToday = action.payload.totalToday;
+    },
+    default: (state: TFeedState) => {
+      return state;
+    },
+  },
+});
+
+export const {
+  wsInit,
+  wsClose,
+  wsConnectionClosed,
+  wsConnectionError,
+  wsConnectionSuccess,
+  wsGetOrders,
+} = feedSlice.actions;
+
+export default feedSlice.reducer;

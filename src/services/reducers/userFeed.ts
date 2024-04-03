@@ -1,11 +1,12 @@
-import { TUserFeedActions } from "../actions/userFeed";
 import {
-  WS_USERFEED_CONNECTION_ERROR,
-  WS_USERFEED_CONNECTION_SUCCESS,
-  WS_USERFEED_CONNECTION_CLOSED,
-  WS_USERFEED_GET_ORDERS,
-} from "../constants";
-import { IOrder } from "../types/data";
+  ActionCreatorWithPayload,
+  ActionCreatorWithoutPayload,
+  PayloadAction,
+  createSlice,
+} from '@reduxjs/toolkit';
+
+import { IOrder } from '../types/data';
+import { TFeedState } from './feed';
 
 export type TUserFeedState = {
   wsConnected: boolean;
@@ -17,40 +18,52 @@ const initialState: TUserFeedState = {
   orders: [],
 };
 
-export const wsUserFeedReducer = (
-  state = initialState,
-  action: TUserFeedActions
-): TUserFeedState => {
-  switch (action.type) {
-    case WS_USERFEED_CONNECTION_SUCCESS: {
-      return {
-        ...state,
-        wsConnected: true,
-      };
-    }
-    case WS_USERFEED_CONNECTION_ERROR: {
-      return {
-        ...state,
-        wsConnected: false,
-      };
-    }
-    case WS_USERFEED_CONNECTION_CLOSED: {
-      return {
-        ...state,
-        wsConnected: false,
-        orders: initialState.orders,
-      };
-    }
-    case WS_USERFEED_GET_ORDERS: {
-      return {
-        ...state,
-        orders: action.payload.orders,
-      };
-    }
-    default: {
-      return {
-        ...state,
-      };
-    }
-  }
+type TUserFeedActions = {
+  wsUserInit: ActionCreatorWithPayload<string>;
+  wsUserClose: ActionCreatorWithoutPayload;
+  wsUserFeedConnectionClosed: ActionCreatorWithoutPayload;
+  wsUserFeedConnectionError: ActionCreatorWithoutPayload;
+  wsUserFeedConnectionSuccess: ActionCreatorWithoutPayload;
+  wsGetOrders: ActionCreatorWithPayload<Omit<TUserFeedState, 'wsConnected'>>;
 };
+
+export const userFeedSlice = createSlice({
+  name: 'userFeed',
+  initialState,
+  reducers: {
+    wsUserInit: (state: TUserFeedState, action: PayloadAction<string>) => {
+      return state;
+    },
+    wsUserClose: () => {},
+    wsUserFeedConnectionSuccess: (state: TUserFeedState) => {
+      state.wsConnected = true;
+    },
+    wsUserFeedConnectionError: (state: TUserFeedState) => {
+      state.wsConnected = false;
+    },
+    wsUserFeedConnectionClosed: (state: TUserFeedState) => {
+      state.wsConnected = false;
+      state.orders = initialState.orders;
+    },
+    wsUserFeedGetOrders: (
+      state: TUserFeedState,
+      action: PayloadAction<Omit<TFeedState, 'wsConnected'>>,
+    ) => {
+      state.orders = action.payload.orders;
+    },
+    default: (state: TUserFeedState) => {
+      return state;
+    },
+  },
+});
+
+export const {
+  wsUserInit,
+  wsUserClose,
+  wsUserFeedConnectionSuccess,
+  wsUserFeedConnectionError,
+  wsUserFeedConnectionClosed,
+  wsUserFeedGetOrders,
+} = userFeedSlice.actions;
+
+export default userFeedSlice.reducer;

@@ -1,8 +1,8 @@
-import { combineReducers } from "redux";
-import { burgerReducer } from "./burger";
-import { userReducer } from "./user";
-import { wsFeedReducer } from "./feed";
-import { wsUserFeedReducer } from "./userFeed";
+import { combineReducers } from 'redux';
+import burgerReducer from './burger';
+import userReducer from './user';
+import wsFeedReducer from './feed';
+import wsUserFeedReducer from './userFeed';
 
 export const rootReducer = combineReducers({
   burger: burgerReducer,

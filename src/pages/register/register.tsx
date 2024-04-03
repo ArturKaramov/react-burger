@@ -5,7 +5,6 @@ import { useNavigate, Navigate } from 'react-router-dom';
 import { registerUser } from '../../services/actions/user';
 import { Preloader } from '../../components/preloader/preloader';
 import { LOGIN_URL, PROFILE_URL } from '../../utils/data';
-import { TInputValue } from '../../services/types/data';
 
 export const RegisterPage = () => {
   const pageData = {
@@ -24,12 +23,12 @@ export const RegisterPage = () => {
       },
     ],
   };
-  const { authRequest, authFailed } = useSelector((state) => state.user);
+  const { authRequest, authSuccess } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onClick = (obj: TInputValue) => {
+  const onClick = (obj: Record<'name' | 'email' | 'password', string>) => {
     dispatch(registerUser(obj));
     navigate(LOGIN_URL);
   };
@@ -38,7 +37,7 @@ export const RegisterPage = () => {
     <>
       {authRequest ? (
         <Preloader />
-      ) : !authFailed ? (
+      ) : authSuccess ? (
         <Navigate to={PROFILE_URL} />
       ) : (
         <main className={styles.main}>
