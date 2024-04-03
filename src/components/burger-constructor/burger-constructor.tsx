@@ -11,12 +11,12 @@ import OrderDetails from '../order-details/order-details';
 import BurgerElement from '../burger-element/burger-element';
 import { Preloader } from '../preloader/preloader';
 import { useSelector, useDispatch } from '../../services/hooks';
-import { setOrder } from '../../services/actions/burger';
+import { setOrder } from '../../services/thunks/burger';
 import { useDrop } from 'react-dnd/dist/hooks/useDrop';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router';
-import { IIngredient, IngrType } from '../../services/types/data';
-import { addIngr, clearOrder } from '../../services/reducers/burger';
+import { IIngredient, IngrType } from '../../services/types';
+import { addIngr, clearOrder } from '../../services/slices/burger';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();

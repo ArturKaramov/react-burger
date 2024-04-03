@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { Outlet } from 'react-router';
 import { OrderFeed } from '../../components/order-feed/order-feed';
-import { wsClose, wsInit } from '../../services/reducers/feed';
+import { wsClose, wsInit } from '../../services/slices/feed';
 
 export const FeedPage = () => {
   const dispatch = useDispatch();

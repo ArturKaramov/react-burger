@@ -2,7 +2,7 @@ import styles from './register.module.css';
 import { Form } from '../../components/form/form';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { registerUser } from '../../services/actions/user';
+import { registerUser } from '../../services/thunks/user';
 import { Preloader } from '../../components/preloader/preloader';
 import { LOGIN_URL, PROFILE_URL } from '../../utils/data';
 

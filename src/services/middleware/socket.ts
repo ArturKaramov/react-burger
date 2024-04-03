@@ -1,5 +1,5 @@
 import { Middleware, MiddlewareAPI } from 'redux';
-import { TWSActions } from '../types/data';
+import { TWSActions } from '../types';
 import { AppDispatch, RootState } from '../types/index';
 import { ActionCreatorWithPayload, ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
 

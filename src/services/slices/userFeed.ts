@@ -5,7 +5,7 @@ import {
   createSlice,
 } from '@reduxjs/toolkit';
 
-import { IOrder } from '../types/data';
+import { IOrder } from '../types';
 import { TFeedState } from './feed';
 
 export type TUserFeedState = {

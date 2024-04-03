@@ -1,6 +1,6 @@
 import styles from './login.module.css';
 import { Form } from '../../components/form/form';
-import { loginUser } from '../../services/actions/user';
+import { loginUser } from '../../services/thunks/user';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { useNavigate } from 'react-router';
 import { Preloader } from '../../components/preloader/preloader';

@@ -1,12 +1,5 @@
 import { ActionCreatorWithPayload, ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
-
-export type TInputValue = {
-  [key: string]: string;
-};
-
-export const bun = 'bun';
-export const main = 'main';
-export const sauce = 'sauce';
+import { IUser } from './user';
 
 export enum IngrType {
   BUN = 'bun',
@@ -34,15 +27,7 @@ export interface IIngredient {
   readonly image_large: string;
   readonly __v: string;
   key?: string;
-  [k: string]: string | number | undefined;
 }
-
-export type TAuthResponse = {
-  readonly success: boolean;
-  readonly accessToken: string;
-  readonly refreshToken: string;
-  readonly user: { readonly email: string; readonly name: string };
-};
 
 export interface IOrder {
   readonly ingredients: ReadonlyArray<string>;
@@ -53,20 +38,6 @@ export interface IOrder {
   readonly createdAt: string;
   readonly updatedAt: string;
 }
-
-export interface IUser {
-  readonly name: string;
-  readonly email: string;
-  readonly createdAt: string;
-  readonly updatedAt: string;
-}
-
-export type TLoginResponse = {
-  readonly success: boolean;
-  readonly accessToken: string;
-  readonly refreshToken: string;
-  readonly user: { readonly name: string; readonly email: string };
-};
 
 export type TWSResponse = {
   readonly success: boolean;

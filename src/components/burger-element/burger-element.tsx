@@ -4,8 +4,8 @@ import style from './burger-element.module.css';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from '../../services/hooks';
 
-import { IIngredient } from '../../services/types/data';
-import { deleteIngr, moveIngr } from '../../services/reducers/burger';
+import { IIngredient } from '../../services/types';
+import { deleteIngr, moveIngr } from '../../services/slices/burger';
 
 interface Props {
   data: IIngredient;

@@ -1,12 +1,12 @@
 import styles from './order-info.module.css';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from '../../services/hooks';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Preloader } from '../preloader/preloader';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getDate } from '../../utils/utils';
-import { FEED_URL, LOGIN_URL, USER_ORDERS_URL } from '../../utils/data';
-import { IIngredient, IOrder, statuses } from '../../services/types/data';
+import { LOGIN_URL, USER_ORDERS_URL } from '../../utils/data';
+import { IIngredient, IOrder, statuses } from '../../services/types';
 
 export const OrderInfo = () => {
   const { id } = useParams();
@@ -17,7 +17,7 @@ export const OrderInfo = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [order, setOrder] = useState<IOrder | null | undefined>(null);
+  const [order, setOrder] = useState<IOrder | null>(null);
   const [data, setData] = useState<Array<IIngredient | undefined> | null>(null);
   const [quantity, setQuantity] = useState<Record<string, number>>({});
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -29,18 +29,17 @@ export const OrderInfo = () => {
   });
 
   useEffect(() => {
-    const order = location.pathname.startsWith(USER_ORDERS_URL)
+    const order: IOrder | undefined = location.pathname.startsWith(USER_ORDERS_URL)
       ? userOrders.find((item) => item._id === id)
       : allOrders.find((item) => item._id === id);
 
-    setOrder(order);
-
-    const sum = order?.ingredients
-      .map((ingr) => items.find((item) => item._id === ingr)?.price)
-      .reduce((ingr, prevIngr) => (!!ingr && !!prevIngr ? ingr + prevIngr : 0));
-    sum && setTotalPrice(sum);
-
     if (order) {
+      setOrder(order);
+      const sum = order.ingredients
+        .map((ingr) => items.find((item) => item._id === ingr)?.price)
+        .reduce((ingr, prevIngr) => (!!ingr && !!prevIngr ? ingr + prevIngr : 0));
+      sum && setTotalPrice(sum);
+
       const quan: Record<string, number> = {};
       for (let i = 0; i < order.ingredients.length; i++) {
         if (!quan[order.ingredients[i]]) {

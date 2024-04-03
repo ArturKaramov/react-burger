@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IIngredient, IngrType, TOrderResponse } from '../types/data';
-import { getIngredients, setOrder } from '../actions/burger';
+import { IIngredient, IngrType, TOrderResponse } from '../types';
+import { getIngredients, setOrder } from '../thunks/burger';
 
 export type TBurgerState = {
   ingredientsRequest: boolean;

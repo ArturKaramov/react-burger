@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IOrder } from '../types/data';
+import { IOrder } from '../types';
 
 export type TFeedState = {
   wsConnected: boolean;

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styles from './reset-password.module.css';
 import { Form } from '../../components/form/form';
 import { useDispatch, useSelector } from '../../services/hooks';
-import { createNewPassword } from '../../services/actions/user';
+import { createNewPassword } from '../../services/thunks/user';
 import { useNavigate } from 'react-router';
 import { Preloader } from '../../components/preloader/preloader';
 import { FORGOT_URL, LOGIN_URL } from '../../utils/data';

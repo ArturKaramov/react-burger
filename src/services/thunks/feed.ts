@@ -5,8 +5,8 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_SUCCESS,
   WS_GET_ORDERS,
-} from "../constants";
-import { TWSResponse } from "../types/data";
+} from '../constants';
+import { TWSResponse } from '../types';
 
 export interface IStartConnection {
   readonly type: typeof WS_START_CONNECTION;

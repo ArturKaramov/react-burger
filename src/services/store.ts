@@ -1,4 +1,4 @@
-import { rootReducer } from './reducers';
+import { rootReducer } from './slices';
 import { socketMiddleware } from './middleware/socket';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import {
@@ -8,7 +8,7 @@ import {
   wsConnectionSuccess,
   wsGetOrders,
   wsInit,
-} from './reducers/feed';
+} from './slices/feed';
 import {
   wsUserClose,
   wsUserFeedConnectionClosed,
@@ -16,8 +16,8 @@ import {
   wsUserFeedConnectionSuccess,
   wsUserFeedGetOrders,
   wsUserInit,
-} from './reducers/userFeed';
-import { TWSActions } from './types/data';
+} from './slices/userFeed';
+import { TWSActions } from './types';
 
 const wsUrl: string = 'wss://norma.nomoreparties.space/orders/all';
 const wsUrlUser: string = 'wss://norma.nomoreparties.space/orders';

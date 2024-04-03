@@ -4,7 +4,7 @@ import IngredientPanel from '../ingredient-panel/ingredient-panel';
 import { useSelector } from '../../services/hooks';
 import { useRef } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IIngredient, IngrType } from '../../services/types/data';
+import { IIngredient, IngrType } from '../../services/types';
 
 interface IngrInterface {
   name: string;

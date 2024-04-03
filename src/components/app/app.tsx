@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/hooks';
-import { getIngredients } from '../../services/actions/burger';
+import { getIngredients } from '../../services/thunks/burger';
 import { ProtectedRouteElement } from '../protected-route/protected-route';
 import { Routes, Route } from 'react-router-dom';
 import { useLocation } from 'react-router';
@@ -32,7 +32,7 @@ import {
   EXIT_URL,
   FEED_URL,
 } from '../../utils/data';
-import { getUserInfo, loginUser } from '../../services/actions/user';
+import { getUserInfo, loginUser } from '../../services/thunks/user';
 import AppHeader from '../app-header/app-header';
 
 const App: FC = () => {

@@ -5,7 +5,7 @@ import { Outlet } from 'react-router';
 import { useEffect } from 'react';
 import { getCookie } from '../../utils/utils';
 import { useDispatch, useSelector } from '../../services/hooks';
-import { wsUserClose, wsUserInit } from '../../services/reducers/userFeed';
+import { wsUserClose, wsUserInit } from '../../services/slices/userFeed';
 
 export const OrdersHistoryPage = () => {
   const dispatch = useDispatch();

@@ -7,9 +7,9 @@ import {
   registerUser,
   resetPassword,
   updateUser,
-} from '../actions/user';
+} from '../thunks/user';
 import { deleteCookie, setCookie } from '../../utils/utils';
-import { TLoginResponse } from '../types/data';
+import { TLoginResponse } from '../types';
 
 export type TUserState = {
   authRequest: boolean;

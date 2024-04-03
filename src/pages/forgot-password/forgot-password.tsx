@@ -1,7 +1,7 @@
 import styles from './forgot-password.module.css';
 import { Form } from '../../components/form/form';
 import { Navigate } from 'react-router-dom';
-import { resetPassword } from '../../services/actions/user';
+import { resetPassword } from '../../services/thunks/user';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { Preloader } from '../../components/preloader/preloader';
 import { LOGIN_URL, RESET_URL } from '../../utils/data';

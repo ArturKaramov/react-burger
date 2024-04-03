@@ -1,4 +1,3 @@
-import { IIngredient } from '../services/types/data';
 import { url } from './data';
 import { setCookie, getCookie } from './utils';
 

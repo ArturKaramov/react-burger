@@ -7,8 +7,8 @@ import { FEED_URL, INGREDIENTS_URL, USER_ORDERS_URL } from '../../utils/data';
 import { OrderInfo } from '../../components/order-info/order-info';
 import { Preloader } from '../../components/preloader/preloader';
 import { getCookie } from '../../utils/utils';
-import { wsClose, wsInit } from '../../services/reducers/feed';
-import { wsUserInit, wsUserClose } from '../../services/reducers/userFeed';
+import { wsClose, wsInit } from '../../services/slices/feed';
+import { wsUserInit, wsUserClose } from '../../services/slices/userFeed';
 
 export const FullViewPage = () => {
   const location = useLocation();

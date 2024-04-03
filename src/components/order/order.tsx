@@ -6,7 +6,7 @@ import { useSelector } from '../../services/hooks';
 import { useNavigate, useLocation } from 'react-router';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { maxIngr, USER_ORDERS_URL } from '../../utils/data';
-import { IIngredient, IOrder, statuses } from '../../services/types/data';
+import { IIngredient, IOrder, statuses } from '../../services/types';
 
 export const Order: FC<IOrder> = ({ _id, ingredients, number, name, status, createdAt }) => {
   const items = useSelector((state) =>

@@ -2,7 +2,12 @@ import styles from './ingredient-details.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector } from '../../services/hooks';
 import { useParams, useLocation } from 'react-router-dom';
-import { IIngredient } from '../../services/types/data';
+import { IIngredient } from '../../services/types';
+
+interface INutrValues {
+  name: string;
+  value: keyof IIngredient;
+}
 
 function IngredientDetails() {
   const { id } = useParams();
@@ -15,7 +20,7 @@ function IngredientDetails() {
     return () => setIngr(null);
   }, []);
 
-  const nutritionValues: ReadonlyArray<Record<string, string>> = [
+  const nutritionValues: ReadonlyArray<INutrValues> = [
     {
       name: 'Калории, ккал',
       value: 'calories',

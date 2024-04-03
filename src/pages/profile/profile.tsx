@@ -6,7 +6,7 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './profile.module.css';
-import { updateUser } from '../../services/actions/user';
+import { updateUser } from '../../services/thunks/user';
 import { useState } from 'react';
 import { useSelector, useDispatch } from '../../services/hooks';
 
